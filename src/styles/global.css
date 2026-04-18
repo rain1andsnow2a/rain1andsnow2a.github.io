@@ -10,16 +10,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #0F172A;
+    background: #406cc2;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #2e4470;
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
+    background: #405a8a;
   }
 
   /* 选中文本的颜色 */

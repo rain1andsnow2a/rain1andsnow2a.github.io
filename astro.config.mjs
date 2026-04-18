@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
+import icon from 'astro-icon';
 
 export default defineConfig({
   site: 'https://rain1andsnow2a.github.io',
@@ -8,6 +9,11 @@ export default defineConfig({
   integrations: [
     mdx(),
     tailwind(),
+    icon({
+      include: {
+        lucide: ['sparkles', 'flame', 'star', 'github', 'arrow-right', 'home', 'book-open', 'user'],
+      },
+    }),
   ],
   markdown: {
     shikiConfig: {

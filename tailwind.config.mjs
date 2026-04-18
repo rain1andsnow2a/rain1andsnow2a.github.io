@@ -5,10 +5,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 深空石板蓝 - 主背景色
-        'deep-space': '#0a192f',
+        // 星际深蓝配色体系 - 提亮版
+        'navy': {
+          950: '#142a56ff',  // 主背景（更亮的深蓝）
+          900: '#162744',  // 稍亮背景
+          800: '#1e3354',  // 卡片/内容区背景
+          700: '#2e4470',  // 边框/分割线
+          600: '#405a8a',  // hover 边框
+        },
         // 丁火琥珀金 - 强调色
         'ding-fire': '#FBBF24',
+      },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       fontFamily: {
         sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'],

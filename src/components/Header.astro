@@ -1,11 +1,12 @@
 ---
+import { Icon } from 'astro-icon/components';
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="border-b border-slate-800">
-  <nav class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+<header class="sticky top-0 z-50 border-b border-navy-700/50 backdrop-blur-xl bg-navy-950/80">
+  <nav class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2 group">
-      <span class="text-amber-400 text-xl">✦</span>
+      <Icon name="lucide:flame" class="w-5 h-5 text-amber-400 group-hover:text-amber-300 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
       <span class="text-lg font-semibold text-slate-100 group-hover:text-amber-400 transition-colors duration-200">
         晨熠
       </span>
@@ -14,27 +15,30 @@ const currentPath = Astro.url.pathname;
       <a
         href="/"
         class:list={[
-          'transition-colors duration-200',
+          'flex items-center gap-1.5 transition-colors duration-200',
           currentPath === '/' ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400',
         ]}
       >
+        <Icon name="lucide:home" class="w-4 h-4" />
         首页
       </a>
       <a
         href="/blog"
         class:list={[
-          'transition-colors duration-200',
+          'flex items-center gap-1.5 transition-colors duration-200',
           currentPath.startsWith('/blog') ? 'text-amber-400' : 'text-slate-400 hover:text-amber-400',
         ]}
       >
+        <Icon name="lucide:book-open" class="w-4 h-4" />
         文章
       </a>
       <a
         href="https://github.com/rain1andsnow2"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-slate-400 hover:text-amber-400 transition-colors duration-200"
+        class="flex items-center gap-1.5 text-slate-400 hover:text-amber-400 transition-colors duration-200"
       >
+        <Icon name="lucide:github" class="w-4 h-4" />
         GitHub
       </a>
     </div>
