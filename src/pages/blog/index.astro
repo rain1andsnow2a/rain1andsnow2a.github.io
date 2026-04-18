@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="文章" description="晨熠的所有博客文章">
+  <Header />
+  <main class="max-w-3xl mx-auto px-6 py-10 flex-1">
+    <h1 class="text-2xl font-bold text-slate-100 mb-8">文章</h1>
+    <div class="space-y-1">
+      {posts.map((post) => {
+        const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+        return (
+          <a
+            href={`/blog/${post.id}`}
+            class="group flex items-baseline justify-between py-4 border-b border-slate-800/50 hover:border-slate-700 transition-colors"
+          >
+            <div class="flex-1 min-w-0">
+              <h2 class="text-slate-200 group-hover:text-amber-400 transition-colors duration-200 truncate">
+                {post.data.title}
+              </h2>
+              {post.data.description && (
+                <p class="text-sm text-slate-500 mt-1 line-clamp-1">
+                  {post.data.description}
+                </p>
+              )}
+            </div>
+            <span class="text-xs text-slate-600 shrink-0 ml-4">
+              {formattedDate}
+            </span>
+          </a>
+        );
+      })}
+    </div>
+    {posts.length === 0 && (
+      <p class="text-slate-500 text-center py-16">暂无文章，敬请期待...</p>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>

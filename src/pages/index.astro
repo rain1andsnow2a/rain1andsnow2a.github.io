@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const recentPosts = posts.slice(0, 5);
+---
+
+<BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
+  <Header />
+  <main class="flex-1">
+    <!-- Hero 区域 - 带深空背景 -->
+    <section class="relative overflow-hidden">
+      <!-- 背景图片 -->
+      <div class="absolute inset-0">
+        <img
+          src="/hero-bg_1.png"
+          alt="深空星夜"
+          class="w-full h-full object-cover"
+        />
+        <!-- 底部渐变遮罩，让文字区域可读 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-slate-900/30"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/60 to-transparent"></div>
+      </div>
+      <!-- Hero 内容 -->
+      <div class="relative max-w-3xl mx-auto px-6 py-24 sm:py-32">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-4xl text-amber-400">✦</span>
+          <h1 class="text-5xl font-bold text-slate-100">晨熠</h1>
+        </div>
+        <p class="text-xl text-slate-300 mb-2 font-light">
+          深空中的丁火 · 寒夜里的极光
+        </p>
+        <p class="text-slate-400 leading-relaxed max-w-lg">
+          记录技术探索、思考与成长。在广袤的信息宇宙中，这里是一颗安静燃烧的星。
+        </p>
+      </div>
+    </section>
+
+    <!-- 最近文章 -->
+    <section class="max-w-3xl mx-auto px-6 py-12">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-semibold text-slate-200">最近文章</h2>
+        <a href="/blog" class="text-sm text-amber-400 hover:text-amber-300 transition-colors">
+          查看全部 →
+        </a>
+      </div>
+      <div class="space-y-1">
+        {recentPosts.map((post) => {
+          const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+          return (
+            <a
+              href={`/blog/${post.id}`}
+              class="group flex items-baseline justify-between py-3 border-b border-slate-800/50 hover:border-slate-700 transition-colors"
+            >
+              <span class="text-slate-300 group-hover:text-amber-400 transition-colors duration-200">
+                {post.data.title}
+              </span>
+              <span class="text-xs text-slate-600 shrink-0 ml-4">
+                {formattedDate}
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section class="max-w-3xl mx-auto px-6 mt-8 pt-8 border-t border-slate-800 pb-16">
+      <h2 class="text-lg font-semibold text-slate-200 mb-4">关于</h2>
+      <div class="text-slate-400 leading-relaxed space-y-3 max-w-xl">
+        <p>
+          我是晨熠，一个热爱技术的探索者。这个博客是我的数字花园，记录学习路上的点滴收获。
+        </p>
+        <div class="flex gap-4 text-sm">
+          <a
+            href="https://github.com/rain1andsnow2"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-slate-500 hover:text-amber-400 transition-colors"
+          >
+            GitHub →
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

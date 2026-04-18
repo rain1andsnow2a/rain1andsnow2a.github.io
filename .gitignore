@@ -1,0 +1,19 @@
+# 构建输出
+dist/
+
+# 依赖
+node_modules/
+
+# Astro
+.astro/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 日志
+npm-debug.log*

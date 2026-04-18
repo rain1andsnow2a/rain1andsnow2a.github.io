@@ -1,0 +1,22 @@
+{
+  "name": "chenyi-blog",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "keywords": [],
+  "author": "晨熠",
+  "license": "MIT",
+  "description": "晨熠的个人博客 - 深空中的丁火",
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.19",
+    "astro": "^5.18.1",
+    "tailwindcss": "^3.4.19"
+  }
+}
