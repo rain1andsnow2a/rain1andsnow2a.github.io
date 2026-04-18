@@ -1,5 +1,5 @@
 ---
-title: '你好，世界'
+title: 'Hello，World'
 description: '这是晨熠博客的第一篇文章，记录这个博客的诞生。'
 pubDate: 2026-04-18
 tags: ['随笔', '博客']
