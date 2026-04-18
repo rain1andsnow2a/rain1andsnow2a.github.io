@@ -2,14 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { Icon } from 'astro-icon/components';
 
 export interface Props {
   title: string;
   description?: string;
   pubDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
 }
 
-const { title, description, pubDate } = Astro.props;
+const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
 
 const formattedDate = pubDate
   ? pubDate.toLocaleDateString('zh-CN', {
@@ -18,17 +21,99 @@ const formattedDate = pubDate
       day: 'numeric',
     })
   : null;
+
+const formattedUpdated = updatedDate
+  ? updatedDate.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+
+// Simulated stats (can be replaced with real analytics later)
+const wordCount = '约 1.5k 字';
+const readTime = '约 5 分钟';
 ---
 
 <BaseLayout title={title} description={description} pubDate={pubDate}>
   <Header />
+
+  <!-- Hero Banner -->
+  <div class="relative overflow-hidden bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 border-b border-navy-700/50">
+    <!-- Decorative elements -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,191,36,0.08),transparent_60%)]"></div>
+    <div class="absolute top-0 right-0 w-64 h-64 bg-amber-400/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+
+    <div class="relative max-w-3xl mx-auto px-6 pt-10 pb-8">
+      <!-- Tags -->
+      {tags.length > 0 && (
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          {tags.map((tag) => (
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium bg-amber-400/10 text-amber-400 rounded-full border border-amber-400/20 backdrop-blur-sm">
+              <Icon name="lucide:hash" class="w-3 h-3" />
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <!-- Title -->
+      <h1 class="text-3xl md:text-4xl font-bold text-slate-50 leading-tight mb-3">
+        {title}
+      </h1>
+
+      <!-- Description -->
+      {description && (
+        <p class="text-base text-slate-400 mb-5 leading-relaxed max-w-2xl">
+          {description}
+        </p>
+      )}
+
+      <!-- Meta row -->
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
+        {formattedDate && (
+          <span class="flex items-center gap-1.5">
+            <Icon name="lucide:calendar" class="w-3.5 h-3.5" />
+            发表于 {formattedDate}
+          </span>
+        )}
+        {formattedUpdated && (
+          <span class="flex items-center gap-1.5">
+            <Icon name="lucide:refresh-cw" class="w-3.5 h-3.5" />
+            更新于 {formattedUpdated}
+          </span>
+        )}
+        <span class="flex items-center gap-1.5">
+          <Icon name="lucide:file-text" class="w-3.5 h-3.5" />
+          {wordCount}
+        </span>
+        <span class="flex items-center gap-1.5">
+          <Icon name="lucide:clock" class="w-3.5 h-3.5" />
+          {readTime}
+        </span>
+      </div>
+
+      <!-- Stats row: views & likes -->
+      <div class="flex items-center gap-4 mt-4 pt-4 border-t border-navy-700/40">
+        <span class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-amber-400 transition-colors cursor-default">
+          <Icon name="lucide:eye" class="w-4 h-4" />
+          <span id="view-count">--</span> 阅读
+        </span>
+        <button id="like-btn" class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-rose-400 transition-colors group">
+          <Icon name="lucide:heart" class="w-4 h-4 group-hover:scale-110 transition-transform" />
+          <span id="like-count">--</span> 点赞
+        </button>
+        <button class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-amber-400 transition-colors ml-auto" onclick="navigator.clipboard.writeText(window.location.href).then(()=>this.querySelector('span').textContent='已复制!')">
+          <Icon name="lucide:share-2" class="w-4 h-4" />
+          <span>分享</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article Content -->
   <main class="max-w-3xl mx-auto px-6 py-10 flex-1 w-full">
     <article>
-      {formattedDate && (
-        <time datetime={pubDate!.toISOString()} class="text-sm text-slate-500 mb-4 block">
-          {formattedDate}
-        </time>
-      )}
       <div class="prose prose-invert prose-slate max-w-none
         prose-headings:text-slate-100
         prose-a:text-amber-400 prose-a:no-underline hover:prose-a:text-amber-300 hover:prose-a:underline
@@ -44,3 +129,40 @@ const formattedDate = pubDate
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  // Simple localStorage-based view counter & likes (per article)
+  const slug = window.location.pathname;
+  const viewKey = `blog_views_${slug}`;
+  const likeKey = `blog_likes_${slug}`;
+  const likedKey = `blog_liked_${slug}`;
+
+  // Views
+  let views = parseInt(localStorage.getItem(viewKey) || '0') + 1;
+  localStorage.setItem(viewKey, String(views));
+  const viewEl = document.getElementById('view-count');
+  if (viewEl) viewEl.textContent = String(views);
+
+  // Likes
+  let likes = parseInt(localStorage.getItem(likeKey) || '0');
+  const likeEl = document.getElementById('like-count');
+  if (likeEl) likeEl.textContent = String(likes);
+
+  const likeBtn = document.getElementById('like-btn');
+  if (likeBtn) {
+    // Show liked state
+    if (localStorage.getItem(likedKey)) {
+      likeBtn.classList.add('text-rose-400');
+      likeBtn.classList.remove('text-slate-500');
+    }
+    likeBtn.addEventListener('click', () => {
+      if (localStorage.getItem(likedKey)) return;
+      likes++;
+      localStorage.setItem(likeKey, String(likes));
+      localStorage.setItem(likedKey, '1');
+      if (likeEl) likeEl.textContent = String(likes);
+      likeBtn.classList.add('text-rose-400');
+      likeBtn.classList.remove('text-slate-500');
+    });
+  }
+</script>
