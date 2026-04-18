@@ -11,7 +11,7 @@ export default defineConfig({
     tailwind(),
     icon({
       include: {
-        lucide: ['sparkles', 'flame', 'star', 'github', 'arrow-right', 'home', 'book-open', 'user'],
+        lucide: ['sparkles', 'flame', 'star', 'github', 'arrow-right', 'home', 'book-open', 'user', 'hash', 'calendar', 'refresh-cw', 'file-text', 'clock', 'eye', 'heart', 'share-2'],
       },
     }),
   ],
