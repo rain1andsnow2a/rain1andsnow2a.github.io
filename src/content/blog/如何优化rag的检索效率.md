@@ -185,45 +185,36 @@ k1:
 
 k1控制的是词频增加时分数的增长，如果k1大，那么很快就会出现饱和，毕竟是分母
 
-
-
 最后BM25的本质可以压缩为：一个chunk的得分 = query 中每个词的重要性 × 它在chunk中的匹配强度，再把这些贡献加总；其中匹配强度会考虑词频饱和和文档长度归一化。
 
 最后按照分数进行排序，按分数取出最高的top K
-
-
 
 第一步优化：
 
 通过standard RAG和BM25,分别根据分数排序选出top N和top K个向量填充给大模型的system prompt，相当于做了一些信息的补充
 
-
-
 第二步优化：
 
 这里首先介绍一个概念：prompt cache,提示词缓存，意思就是相同或重叠的prompt前缀，如system prompt，可以复用之前已经计算过的前缀处理结果，也就是复用前缀结果之前计算出来的中间状态，像deepseek是默认开启提示词缓存的，不过有些需要在代码中手动开启。
 
+这里的优化就算对事先拆分出来的每一个片段，添加一段基于上下文的信息，不然chunk与chunk之间的信息是破碎的，比如想查询某个公司在第三季度的盈利，却匹配到了公司的盈利，第三季度还在别的chunk中。
 
+思路是给一个优化的prompt给大模型，包含当前片段和整个文档内容，因为有prompt cache，所以会减少很多的token消耗，不然每次都塞入整个文档还是太费token了
 
+这里Anthropic给出的官方的prompt内容为：
 
+```
+<document> 
+{{WHOLE_DOCUMENT}} 
+</document> 
+Here is the chunk we want to situate within the whole document 
+<chunk> 
+{{CHUNK_CONTENT}} 
+</chunk> 
+Please give a short succinct context to situate this chunk within the overall document for the purposes of improving search retrieval of the chunk. Answer only with the succinct context and nothing else. 
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+然后把加入了上下文信息的chunk进行后续的向量化存入向量数据库以供查询
 
 
 
