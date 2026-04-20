@@ -38,3 +38,5 @@ name -> 65
 但这里的token id，它其实只是一个索引罢了
 
 比如your这里对应的token id是70，表示的是去embedding表中取第70行向量
+
+$E \in {R}^{V \times D}$
