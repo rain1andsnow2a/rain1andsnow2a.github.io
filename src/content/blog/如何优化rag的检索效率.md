@@ -153,7 +153,7 @@ $IDF(t) = \log(\frac{N-n_t+0.5}{n_t+0.5}+1)$
 
 这里的确是直接相乘，但如果等等看分母就知道了，k1这里相当于是调节饱和曲线的参数，通常在1.2到2.0左右
 
-### 2.3 看分母$f(t,D) + k_1 \times (1-b + b \times \frac{|D|}{avgdl})$
+### 2.3 看分母$f(t,D) + k_1 \times (1-b + b \times \frac{|D|}{avgdl}$$)$
 
 它的作用是让词频不至于无限膨胀，并且考虑文档长度
 
@@ -216,6 +216,8 @@ Please give a short succinct context to situate this chunk within the overall do
 
 然后把加入了上下文信息的chunk进行BM25的索引，后续的向量化并存入向量数据库以供后续的查询
 
+
+
 ![](/uploads/1776673786034-f2x11a.png)
 
 第三步优化：
@@ -228,8 +230,8 @@ rerank是对召回的所有结果，进行一次精细的排序。
 
 而rerank的话则把query和每个chunk放在一起，逐个重新判断，rerank需要进行语义的理解，所以需要一个rerank model做精细判断
 
-
-
 经过这三步的优化，RAG的查询失败率可以减少67%（5.7% -> 1.9%）
+
+
 
 ![](/uploads/1776673765533-hupnim.png)
