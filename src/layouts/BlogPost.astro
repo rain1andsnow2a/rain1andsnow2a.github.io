@@ -11,9 +11,10 @@ export interface Props {
   updatedDate?: Date;
   category?: string;
   tags?: string[];
+  cover?: string;
 }
 
-const { title, description, pubDate, updatedDate, category = '未分类', tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, category = '未分类', tags = [], cover } = Astro.props;
 
 const formattedDate = pubDate
   ? pubDate.toLocaleDateString('zh-CN', {
@@ -123,6 +124,12 @@ const readTime = '约 5 分钟';
 
     <section class="mx-auto max-w-[980px] px-6 pb-16">
       <article class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+        {cover && (
+          <div class="relative h-72 overflow-hidden border-b border-slate-200">
+            <img src={cover} alt={title} class="h-full w-full object-cover" />
+            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.05)_0%,rgba(15,23,42,0.28)_100%)]"></div>
+          </div>
+        )}
         <div
           class="prose prose-lg max-w-none px-8 py-10 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-p:leading-8 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:text-orange-600 prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:border prose-pre:border-slate-200 prose-pre:bg-slate-950 prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
         >

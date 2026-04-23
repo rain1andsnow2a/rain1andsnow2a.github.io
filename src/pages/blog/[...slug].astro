@@ -3,14 +3,21 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
+  const posts = (await getCollection('blog')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+  const detailCoverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'];
+
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: post,
+    props: {
+      ...post,
+      cover: detailCoverImages[index % detailCoverImages.length],
+    },
   }));
 }
 
-type Props = CollectionEntry<'blog'>;
+type Props = CollectionEntry<'blog'> & { cover?: string };
 
 const post = Astro.props;
 const { Content } = await post.render();
@@ -23,6 +30,7 @@ const { Content } = await post.render();
   updatedDate={post.data.updatedDate}
   category={post.data.category}
   tags={post.data.tags}
+  cover={post.cover}
 >
   <Content />
 </BlogPost>

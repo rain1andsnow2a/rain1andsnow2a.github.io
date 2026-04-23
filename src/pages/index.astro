@@ -9,7 +9,7 @@ const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const featuredPosts = posts.slice(0, 3);
+const featuredPosts = posts.slice(0, 6);
 const postCount = posts.length;
 const categoryMap = posts.reduce((acc, post) => {
   const key = post.data.category || '未分类';
