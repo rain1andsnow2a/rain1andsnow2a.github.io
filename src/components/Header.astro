@@ -4,19 +4,19 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 border-b border-stone-200/80 backdrop-blur-xl bg-white/82 shadow-[0_14px_40px_rgba(148,163,184,0.10)]">
-  <nav class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+  <nav class="mx-auto flex max-w-[1500px] items-center justify-between px-6 py-5">
     <a href="/" class="flex items-center gap-2 group">
       <Icon name="lucide:flame" class="w-5 h-5 text-amber-500 group-hover:text-amber-400 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(245,158,11,0.35)]" />
-      <span class="text-lg font-semibold text-slate-800 group-hover:text-amber-500 transition-colors duration-200">
+      <span class="text-[2rem] font-semibold tracking-tight text-slate-800 group-hover:text-amber-500 transition-colors duration-200">
         晨熠
       </span>
     </a>
-    <div class="flex items-center gap-6 text-sm">
+    <div class="flex items-center gap-7 text-lg">
       <a
         href="/"
         class:list={[
-          'flex items-center gap-1.5 transition-colors duration-200',
-          currentPath === '/' ? 'text-amber-600' : 'text-stone-500 hover:text-amber-500',
+          'flex items-center gap-2 transition-colors duration-200',
+          currentPath === '/' ? 'text-orange-500' : 'text-stone-500 hover:text-orange-500',
         ]}
       >
         <Icon name="lucide:home" class="w-4 h-4" />
@@ -25,7 +25,7 @@ const currentPath = Astro.url.pathname;
       <a
         href="/blog"
         class:list={[
-          'flex items-center gap-1.5 transition-colors duration-200',
+          'flex items-center gap-2 transition-colors duration-200',
           currentPath.startsWith('/blog') ? 'text-sky-600' : 'text-stone-500 hover:text-sky-600',
         ]}
       >
@@ -35,7 +35,7 @@ const currentPath = Astro.url.pathname;
       <a
         href="/categories"
         class:list={[
-          'flex items-center gap-1.5 transition-colors duration-200',
+          'flex items-center gap-2 transition-colors duration-200',
           currentPath.startsWith('/categories') ? 'text-emerald-600' : 'text-stone-500 hover:text-emerald-600',
         ]}
       >
@@ -43,13 +43,34 @@ const currentPath = Astro.url.pathname;
         分类
       </a>
       <a
+        href="/#tags"
+        class="flex items-center gap-2 text-stone-500 transition-colors duration-200 hover:text-violet-600"
+      >
+        <Icon name="lucide:book-open" class="w-4 h-4" />
+        标签
+      </a>
+      <a
         href="https://github.com/rain1andsnow2a"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-1.5 text-stone-500 hover:text-slate-700 transition-colors duration-200"
+        class="flex items-center gap-2 text-stone-500 hover:text-slate-700 transition-colors duration-200"
       >
         <Icon name="lucide:github" class="w-4 h-4" />
         GitHub
+      </a>
+      <a
+        href="/#about"
+        class="flex items-center gap-2 text-stone-500 transition-colors duration-200 hover:text-slate-700"
+      >
+        <Icon name="lucide:user" class="w-4 h-4" />
+        关于
+      </a>
+      <a
+        href="/blog"
+        class="flex items-center gap-2 text-stone-500 transition-colors duration-200 hover:text-slate-700"
+      >
+        <span class="text-base leading-none">⌕</span>
+        搜索
       </a>
     </div>
   </nav>
