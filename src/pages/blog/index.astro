@@ -42,6 +42,12 @@ const posts = (await getCollection('blog')).sort(
                   </p>
                 )}
                 <div class="flex flex-wrap items-center gap-2 mt-3">
+                  <a
+                    href={`/categories/${encodeURIComponent(post.data.category)}`}
+                    class="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs text-emerald-700 transition-colors hover:border-emerald-300 hover:bg-emerald-100"
+                  >
+                    {post.data.category}
+                  </a>
                   <span class="rounded-full border border-amber-300/40 bg-amber-50 px-2.5 py-1 text-xs text-amber-700 transition-colors group-hover:border-amber-400/50 group-hover:bg-amber-100">
                     {formattedDate}
                   </span>

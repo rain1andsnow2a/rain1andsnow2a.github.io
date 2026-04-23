@@ -2,6 +2,7 @@
 title: 如何优化RAG的检索效率
 description: 从A社(Anthropic)博客文章中获得的收获
 pubDate: '2026-04-18'
+category: AI
 tags:
   - AI
   - RAG

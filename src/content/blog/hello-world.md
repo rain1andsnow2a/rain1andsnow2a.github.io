@@ -2,6 +2,7 @@
 title: Hello，World
 description: 这是晨熠博客的第一篇文章，记录这个博客的诞生。
 pubDate: '2026-04-18'
+category: 博客搭建
 tags:
   - 博客
 updatedDate: '2026-04-18'

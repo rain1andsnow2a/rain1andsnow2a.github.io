@@ -2,6 +2,7 @@
 title: 对该blog技术架构的解析
 description: ''
 pubDate: '2026-04-22'
+category: 博客搭建
 tags:
   - blog
   - 架构原理分析
@@ -127,7 +128,6 @@ Latex是一个可以用代码写文档排版，以及数学公式的系统，主
 而Katex是一个开源的前端库，用来在网页上把用latex语法写的数学公式渲染出来，如
 
 $\int_0^1 x^2 dx$
-
 
 
 

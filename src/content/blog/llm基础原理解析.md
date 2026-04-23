@@ -2,6 +2,7 @@
 title: LLM基础原理解析
 description: ''
 pubDate: '2026-04-22'
+category: AI
 tags: []
 updatedDate: '2026-04-22'
 ---
