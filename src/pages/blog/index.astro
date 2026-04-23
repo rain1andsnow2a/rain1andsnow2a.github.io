@@ -12,7 +12,13 @@ const posts = (await getCollection('blog')).sort(
 <BaseLayout title="文章" description="晨熠的所有博客文章">
   <Header />
   <main class="max-w-5xl mx-auto px-6 py-10 flex-1">
-    <h1 class="text-2xl font-bold text-slate-100 mb-8">文章</h1>
+    <div class="mb-8 flex items-end justify-between gap-6">
+      <div>
+        <p class="mb-2 text-sm uppercase tracking-[0.28em] text-sky-500">Archive</p>
+        <h1 class="text-3xl font-bold text-slate-900">文章</h1>
+        <p class="mt-2 text-sm text-slate-500">按时间整理的技术探索与思考记录。</p>
+      </div>
+    </div>
     <div class="space-y-3">
       {posts.map((post) => {
         const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
@@ -23,33 +29,33 @@ const posts = (await getCollection('blog')).sort(
         return (
           <a
             href={`/blog/${post.id}`}
-            class="group block py-5 px-5 -mx-2 rounded-xl border border-navy-700/30 bg-navy-800/20 hover:border-amber-400/30 hover:bg-navy-800/50 transition-all duration-300"
+            class="group block rounded-2xl border border-stone-200 bg-white/80 px-5 py-5 shadow-[0_16px_40px_rgba(148,163,184,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:border-sky-300/55 hover:shadow-[0_20px_48px_rgba(56,189,248,0.14)]"
           >
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1 min-w-0">
-                <h2 class="text-lg text-slate-200 font-medium group-hover:text-amber-400 transition-colors duration-200 truncate">
+                <h2 class="text-lg text-slate-800 font-medium group-hover:text-sky-700 transition-colors duration-200 truncate">
                   {post.data.title}
                 </h2>
                 {post.data.description && (
-                  <p class="text-sm text-slate-500 group-hover:text-slate-400 mt-1.5 line-clamp-2 transition-colors leading-relaxed">
+                  <p class="mt-1.5 line-clamp-2 text-sm leading-relaxed text-slate-500 transition-colors group-hover:text-slate-600">
                     {post.data.description}
                   </p>
                 )}
                 <div class="flex flex-wrap items-center gap-2 mt-3">
-                  <span class="text-xs text-slate-600 group-hover:text-slate-500 transition-colors">
+                  <span class="rounded-full border border-amber-300/40 bg-amber-50 px-2.5 py-1 text-xs text-amber-700 transition-colors group-hover:border-amber-400/50 group-hover:bg-amber-100">
                     {formattedDate}
                   </span>
                   {post.data.tags.length > 0 && (
-                    <span class="text-navy-700">·</span>
+                    <span class="text-stone-300">·</span>
                   )}
                   {post.data.tags.map((tag) => (
-                    <span class="px-2 py-0.5 text-[11px] font-medium bg-amber-400/8 text-amber-400/80 rounded-full border border-amber-400/15">
+                    <span class="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[11px] font-medium text-sky-700">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
-              <span class="text-slate-600 group-hover:text-amber-400/60 shrink-0 mt-1 transition-colors">
+              <span class="mt-1 shrink-0 text-slate-300 transition-colors group-hover:text-sky-500">
                 →
               </span>
             </div>
@@ -58,7 +64,7 @@ const posts = (await getCollection('blog')).sort(
       })}
     </div>
     {posts.length === 0 && (
-      <p class="text-slate-500 text-center py-16">暂无文章，敬请期待...</p>
+      <p class="py-16 text-center text-slate-500">暂无文章，敬请期待...</p>
     )}
   </main>
   <Footer />

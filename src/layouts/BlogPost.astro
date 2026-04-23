@@ -39,17 +39,17 @@ const readTime = '约 5 分钟';
   <Header />
 
   <!-- Hero Banner -->
-  <div class="relative overflow-hidden bg-gradient-to-br from-navy-800 via-navy-900 to-navy-950 border-b border-navy-700/50">
+  <div class="relative overflow-hidden border-b border-stone-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,244,236,0.96))]">
     <!-- Decorative elements -->
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(251,191,36,0.08),transparent_60%)]"></div>
-    <div class="absolute top-0 right-0 w-64 h-64 bg-amber-400/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(14,165,233,0.10),transparent_60%)]"></div>
+    <div class="absolute top-0 right-0 h-64 w-64 translate-x-1/4 -translate-y-1/2 rounded-full bg-amber-300/10 blur-3xl"></div>
 
     <div class="relative max-w-3xl mx-auto px-6 pt-10 pb-8">
       <!-- Tags -->
       {tags.length > 0 && (
         <div class="flex flex-wrap items-center gap-2 mb-4">
           {tags.map((tag) => (
-            <span class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium bg-amber-400/10 text-amber-400 rounded-full border border-amber-400/20 backdrop-blur-sm">
+            <span class="inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-700 backdrop-blur-sm">
               <Icon name="lucide:hash" class="w-3 h-3" />
               {tag}
             </span>
@@ -58,13 +58,13 @@ const readTime = '约 5 分钟';
       )}
 
       <!-- Title -->
-      <h1 class="text-3xl md:text-4xl font-bold text-slate-50 leading-tight mb-3">
+      <h1 class="mb-3 text-3xl font-bold leading-tight text-slate-900 md:text-4xl">
         {title}
       </h1>
 
       <!-- Description -->
       {description && (
-        <p class="text-base text-slate-400 mb-5 leading-relaxed max-w-2xl">
+        <p class="mb-5 max-w-2xl text-base leading-relaxed text-slate-600">
           {description}
         </p>
       )}
@@ -94,16 +94,16 @@ const readTime = '约 5 分钟';
       </div>
 
       <!-- Stats row: views & likes -->
-      <div class="flex items-center gap-4 mt-4 pt-4 border-t border-navy-700/40">
-        <span class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-amber-400 transition-colors cursor-default">
+      <div class="mt-4 flex items-center gap-4 border-t border-stone-200 pt-4">
+        <span class="flex cursor-default items-center gap-1.5 text-sm text-slate-500 transition-colors hover:text-sky-600">
           <Icon name="lucide:eye" class="w-4 h-4" />
           <span id="view-count">--</span> 阅读
         </span>
-        <button id="like-btn" class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-rose-400 transition-colors group">
+        <button id="like-btn" class="group flex items-center gap-1.5 text-sm text-slate-500 transition-colors hover:text-rose-500">
           <Icon name="lucide:heart" class="w-4 h-4 group-hover:scale-110 transition-transform" />
           <span id="like-count">--</span> 点赞
         </button>
-        <button class="flex items-center gap-1.5 text-sm text-slate-500 hover:text-amber-400 transition-colors ml-auto" onclick="navigator.clipboard.writeText(window.location.href).then(()=>this.querySelector('span').textContent='已复制!')">
+        <button class="ml-auto flex items-center gap-1.5 text-sm text-slate-500 transition-colors hover:text-amber-600" onclick="navigator.clipboard.writeText(window.location.href).then(()=>this.querySelector('span').textContent='已复制!')">
           <Icon name="lucide:share-2" class="w-4 h-4" />
           <span>分享</span>
         </button>
@@ -112,16 +112,17 @@ const readTime = '约 5 分钟';
   </div>
 
   <!-- Article Content -->
-  <main class="max-w-3xl mx-auto px-6 py-10 flex-1 w-full">
+  <main class="flex-1 w-full max-w-3xl mx-auto px-6 py-10">
     <article>
-      <div class="prose prose-invert prose-slate max-w-none
-        prose-headings:text-slate-100
-        prose-a:text-amber-400 prose-a:no-underline hover:prose-a:text-amber-300 hover:prose-a:underline
-        prose-code:text-amber-400 prose-code:before:content-[''] prose-code:after:content-['']
-        prose-pre:bg-navy-800/50 prose-pre:border prose-pre:border-navy-700
-        prose-blockquote:border-amber-400/50 prose-blockquote:text-slate-400
-        prose-hr:border-navy-700
-        prose-strong:text-slate-100
+      <div class="prose max-w-none rounded-[2rem] border border-stone-200 bg-white/88 px-8 py-10 shadow-[0_22px_52px_rgba(148,163,184,0.10)]
+        prose-slate
+        prose-headings:text-slate-900
+        prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline
+        prose-code:text-amber-700 prose-code:before:content-[''] prose-code:after:content-['']
+        prose-pre:border prose-pre:border-stone-200 prose-pre:bg-stone-950
+        prose-blockquote:border-amber-400/60 prose-blockquote:text-slate-600
+        prose-hr:border-stone-200
+        prose-strong:text-slate-900
       ">
         <slot />
       </div>

@@ -49,8 +49,13 @@ const recentPosts = posts.slice(0, 5);
             <p class="text-xl sm:text-2xl text-slate-200 mb-3 font-light hero-fade-in hero-delay-1 drop-shadow-md">
               深空中的丁火 · 寒夜里的极光
             </p>
-            <p class="text-slate-300/90 leading-relaxed max-w-xl hero-fade-in hero-delay-2 drop-shadow-sm">
-              记录技术探索、思考与成长。在广袤的信息宇宙中，这里是一颗安静燃烧的星。
+            <p class="text-slate-300/90 leading-relaxed max-w-2xl hero-fade-in hero-delay-2 drop-shadow-sm">
+              <span
+                id="hero-typed"
+                class="typewriter-copy"
+                data-text="记录技术探索、思考与成长。在广袤的信息宇宙中，这里是一颗安静燃烧的星。"
+              ></span>
+              <span class="typewriter-caret" aria-hidden="true"></span>
             </p>
           </div>
 
@@ -73,16 +78,16 @@ const recentPosts = posts.slice(0, 5);
     <!-- 最近文章 -->
     <section class="max-w-5xl mx-auto px-6 py-12">
       <div class="flex items-center justify-between mb-8">
-        <h2 class="text-xl font-semibold text-slate-200 flex items-center gap-2">
-          <Icon name="lucide:book-open" class="w-5 h-5 text-amber-400" />
+        <h2 class="text-xl font-semibold text-slate-800 flex items-center gap-2">
+          <Icon name="lucide:book-open" class="w-5 h-5 text-sky-500" />
           最近文章
         </h2>
-        <a href="/blog" class="group text-sm text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1">
+        <a href="/blog" class="group text-sm text-amber-600 hover:text-amber-500 transition-colors flex items-center gap-1">
           查看全部
           <Icon name="lucide:arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
         </a>
       </div>
-      <div class="space-y-2">
+      <div class="space-y-3">
         {recentPosts.map((post) => {
           const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
             year: 'numeric',
@@ -92,12 +97,18 @@ const recentPosts = posts.slice(0, 5);
           return (
             <a
               href={`/blog/${post.id}`}
-              class="group flex items-center justify-between py-4 px-4 -mx-4 rounded-lg border border-transparent hover:border-navy-700/50 hover:bg-navy-800/40 transition-all duration-300"
+              class="group relative flex items-center justify-between gap-6 overflow-hidden rounded-2xl border border-stone-200 bg-gradient-to-r from-white via-white to-sky-50/70 px-5 py-4 shadow-[0_18px_40px_rgba(148,163,184,0.10)] transition-all duration-300 hover:-translate-y-0.5 hover:border-sky-300/55 hover:shadow-[0_22px_52px_rgba(56,189,248,0.14)]"
             >
-              <span class="text-slate-300 group-hover:text-amber-400 transition-colors duration-200 group-hover:translate-x-1 transform">
-                {post.data.title}
+              <span class="pointer-events-none absolute inset-y-3 left-0 w-px bg-gradient-to-b from-transparent via-sky-300/70 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-100"></span>
+              <span class="min-w-0 flex items-center gap-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-300/30 bg-sky-100/80 text-sky-600 transition-colors duration-300 group-hover:border-sky-300/45 group-hover:bg-sky-100 group-hover:text-sky-700">
+                  <Icon name="lucide:file-text" class="h-4 w-4" />
+                </span>
+                <span class="truncate text-base text-slate-700 transition-all duration-200 group-hover:text-slate-900 group-hover:translate-x-1">
+                  {post.data.title}
+                </span>
               </span>
-              <span class="text-xs text-slate-600 group-hover:text-slate-500 shrink-0 ml-4 transition-colors">
+              <span class="shrink-0 rounded-full border border-amber-300/40 bg-amber-50 px-3 py-1 text-xs font-medium tracking-wide text-amber-700 transition-colors duration-300 group-hover:border-amber-400/45 group-hover:bg-amber-100/80 group-hover:text-amber-800">
                 {formattedDate}
               </span>
             </a>
@@ -107,12 +118,12 @@ const recentPosts = posts.slice(0, 5);
     </section>
 
     <!-- 关于我 -->
-    <section class="max-w-5xl mx-auto px-6 mt-8 pt-8 border-t border-navy-700 pb-16">
-      <h2 class="text-xl font-semibold text-slate-200 mb-4 flex items-center gap-2">
-        <Icon name="lucide:user" class="w-5 h-5 text-amber-400" />
+    <section class="max-w-5xl mx-auto px-6 mt-8 pt-8 border-t border-stone-200 pb-16">
+      <h2 class="text-xl font-semibold text-slate-800 mb-4 flex items-center gap-2">
+        <Icon name="lucide:user" class="w-5 h-5 text-emerald-500" />
         关于
       </h2>
-      <div class="text-slate-400 leading-relaxed space-y-3 max-w-2xl">
+      <div class="max-w-2xl space-y-3 rounded-3xl border border-stone-200/80 bg-white/75 px-6 py-6 text-slate-600 leading-relaxed shadow-[0_18px_40px_rgba(148,163,184,0.08)] backdrop-blur-sm">
         <p>
           我是晨熠，一个热爱技术的探索者。这个博客是我的数字花园，记录学习路上的点滴收获。
         </p>
@@ -121,7 +132,7 @@ const recentPosts = posts.slice(0, 5);
             href="https://github.com/rain1andsnow2a"
             target="_blank"
             rel="noopener noreferrer"
-            class="group inline-flex items-center gap-1.5 text-slate-500 hover:text-amber-400 transition-colors"
+            class="group inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 transition-colors"
           >
             <Icon name="lucide:github" class="w-4 h-4" />
             GitHub
@@ -194,6 +205,30 @@ const recentPosts = posts.slice(0, 5);
     }
   }
 
+  .typewriter-copy {
+    display: inline;
+    min-height: 1.75rem;
+    font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .typewriter-caret {
+    display: inline-block;
+    width: 0.7ch;
+    height: 1.15em;
+    margin-left: 0.15rem;
+    vertical-align: text-bottom;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, rgba(125, 211, 252, 0.95), rgba(251, 191, 36, 0.85));
+    box-shadow: 0 0 18px rgba(125, 211, 252, 0.35);
+    animation: blinkCaret 1s steps(1) infinite;
+  }
+
+  @keyframes blinkCaret {
+    0%, 48% { opacity: 1; }
+    50%, 100% { opacity: 0.15; }
+  }
+
   /* 头像发光 + 浮动动画 */
   .avatar-wrapper {
     animation: float 4s ease-in-out infinite;
@@ -258,6 +293,46 @@ const recentPosts = posts.slice(0, 5);
 
   const meteors: Meteor[] = [];
   let frameCount = 0;
+
+  const typedTarget = document.getElementById('hero-typed');
+  const caret = document.querySelector('.typewriter-caret');
+
+  function runTypewriter() {
+    if (!typedTarget) {
+      return;
+    }
+
+    const fullText = typedTarget.getAttribute('data-text') ?? '';
+    typedTarget.textContent = '';
+
+    if (!fullText) {
+      if (caret instanceof HTMLElement) {
+        caret.style.display = 'none';
+      }
+      return;
+    }
+
+    let index = 0;
+    const typeNext = () => {
+      index += 1;
+      typedTarget.textContent = fullText.slice(0, index);
+
+      if (index < fullText.length) {
+        window.setTimeout(typeNext, index < 8 ? 110 : 58);
+        return;
+      }
+
+      window.setTimeout(() => {
+        if (caret instanceof HTMLElement) {
+          caret.style.opacity = '0.6';
+        }
+      }, 600);
+    };
+
+    window.setTimeout(typeNext, 500);
+  }
+
+  runTypewriter();
 
   function createMeteor(): Meteor {
     const angle = (Math.random() * 30 + 20) * (Math.PI / 180);
