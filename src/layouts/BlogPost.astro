@@ -12,9 +12,14 @@ export interface Props {
   category?: string;
   tags?: string[];
   cover?: string;
+  headings?: Array<{
+    depth: number;
+    slug: string;
+    text: string;
+  }>;
 }
 
-const { title, description, pubDate, updatedDate, category = '未分类', tags = [], cover } = Astro.props;
+const { title, description, pubDate, updatedDate, category = '未分类', tags = [], cover, headings = [] } = Astro.props;
 
 const formattedDate = pubDate
   ? pubDate.toLocaleDateString('zh-CN', {
@@ -34,12 +39,7 @@ const formattedUpdated = updatedDate
 
 const wordCount = '静读一篇';
 const readTime = '约 5 分钟';
-const tocItems = [
-  '初识《易经》',
-  '阴阳之道',
-  '三易之变',
-  '个人思考',
-];
+const tocItems = headings.filter((heading) => heading.depth === 1 || heading.depth === 2);
 ---
 
 <BaseLayout title={title} description={description} pubDate={pubDate}>
@@ -141,12 +141,15 @@ const tocItems = [
           </h2>
           <div class="space-y-2 border-l border-slate-100">
             {tocItems.map((item, index) => (
-              <div class:list={[
+              <a
+                href={`#${item.slug}`}
+                class:list={[
                 'pl-4 text-sm leading-8',
-                index === 0 ? 'border-l-2 border-orange-400 text-orange-500 -ml-px font-medium' : 'text-slate-500',
+                item.depth === 2 ? 'block pl-7' : 'block',
+                index === 0 ? 'border-l-2 border-orange-400 text-orange-500 -ml-px font-medium' : 'text-slate-500 hover:text-orange-500',
               ]}>
-                {String(index + 1).padStart(2, '0')}　{item}
-              </div>
+                {String(index + 1).padStart(2, '0')}　{item.text}
+              </a>
             ))}
           </div>
           <div class="mt-5 border-t border-slate-100 pt-4 text-sm text-slate-400">
