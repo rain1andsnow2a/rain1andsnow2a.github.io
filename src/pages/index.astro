@@ -99,14 +99,22 @@ const cardImages = [
                 href="/blog"
                 class="inline-flex items-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#fb923c,#f97316)] px-6 py-3 text-base font-semibold text-white shadow-[0_18px_38px_rgba(249,115,22,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_46px_rgba(249,115,22,0.42)]"
               >
-                <Icon name="lucide:arrow-right" class="h-4 w-4" />
+                <svg class="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4.5 16.5c-1.1 1.1-1.5 3-1.5 4.5 1.5 0 3.4-.4 4.5-1.5" />
+                  <path d="M9 15 5 19" />
+                  <path d="M15 3c-3.4.7-6.1 2.4-8 5l-2 3 4 4 3-2c2.6-1.9 4.3-4.6 5-8l-2-2Z" />
+                  <path d="M14 4.5 19.5 10" />
+                </svg>
                 探索文章
               </a>
               <a
                 href="#about"
                 class="inline-flex items-center gap-2 rounded-2xl border border-white/55 bg-white/8 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/14"
               >
-                <Icon name="lucide:user" class="h-4 w-4" />
+                <svg class="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M4 21c1.7-4 4.3-6 8-6s6.3 2 8 6" />
+                </svg>
                 关于我
               </a>
             </div>
@@ -175,7 +183,7 @@ const cardImages = [
             </a>
           </div>
 
-          <div class="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+          <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {featuredPosts.map((post, index) => {
               const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
                 year: 'numeric',
