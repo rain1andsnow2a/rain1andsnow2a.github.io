@@ -19,7 +19,7 @@ export interface Props {
   }>;
 }
 
-const { title, description, pubDate, updatedDate, category = '未分类', tags = [], cover, headings = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, category = '未分类', tags = [], headings = [] } = Astro.props;
 
 const formattedDate = pubDate
   ? pubDate.toLocaleDateString('zh-CN', {
@@ -132,11 +132,11 @@ const tocItems = headings.filter((heading) => heading.depth === 1 || heading.dep
       </div>
     </section>
 
-    <section class="mx-auto grid max-w-[1280px] gap-8 px-6 pb-16 lg:grid-cols-[220px_minmax(0,1fr)]">
+    <section class="mx-auto grid max-w-[1360px] gap-8 px-6 pb-16 lg:grid-cols-[280px_minmax(0,1fr)]">
       <aside class="hidden lg:block">
-        <div class="sticky top-28 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_14px_36px_rgba(15,23,42,0.06)]">
-          <h2 class="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900">
-            <Icon name="lucide:book-open" class="h-4 w-4 text-orange-500" />
+        <div class="sticky top-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_14px_36px_rgba(15,23,42,0.06)]">
+          <h2 class="mb-5 flex items-center gap-2 text-xl font-semibold text-slate-900">
+            <Icon name="lucide:book-open" class="h-5 w-5 text-orange-500" />
             目录
           </h2>
           <div class="space-y-2 border-l border-slate-100">
@@ -144,34 +144,32 @@ const tocItems = headings.filter((heading) => heading.depth === 1 || heading.dep
               <a
                 href={`#${item.slug}`}
                 class:list={[
-                'pl-4 text-sm leading-8',
-                item.depth === 2 ? 'block pl-7' : 'block',
+                'pl-4 text-lg leading-10 transition-colors',
+                item.depth === 2 ? 'block pl-8 text-base' : 'block',
                 index === 0 ? 'border-l-2 border-orange-400 text-orange-500 -ml-px font-medium' : 'text-slate-500 hover:text-orange-500',
               ]}>
                 {String(index + 1).padStart(2, '0')}　{item.text}
               </a>
             ))}
           </div>
-          <div class="mt-5 border-t border-slate-100 pt-4 text-sm text-slate-400">
+          <div class="mt-6 border-t border-slate-100 pt-4 text-base text-slate-400">
             共 {tocItems.length} 个章节
           </div>
         </div>
       </aside>
 
       <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.07)]">
-        {cover && (
-          <div class="relative h-56 overflow-hidden border-b border-slate-200">
-            <img src={cover} alt={title} class="h-full w-full object-cover" />
-            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.04)_0%,rgba(15,23,42,0.24)_100%)]"></div>
-          </div>
-        )}
         <div class="px-8 pt-7">
           <div class="h-1.5 rounded-full bg-slate-100">
-            <div class="h-full w-[5%] rounded-full bg-orange-400"></div>
+            <div id="reading-progress-bar" class="h-full w-0 rounded-full bg-orange-400 transition-[width] duration-150"></div>
           </div>
-          <div class="mt-2 text-sm text-slate-400">阅读进度 5%</div>
+          <div class="mt-2 flex items-center justify-between text-sm text-slate-400">
+            <span id="reading-progress-label">阅读进度 0%</span>
+            <span id="reading-remaining-label">继续阅读</span>
+          </div>
         </div>
         <div
+          id="article-content"
           class="prose prose-lg max-w-none px-8 py-8 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-p:leading-8 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:text-orange-600 prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:border prose-pre:border-slate-200 prose-pre:bg-slate-950 prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
         >
           <slot />
@@ -182,3 +180,33 @@ const tocItems = headings.filter((heading) => heading.depth === 1 || heading.dep
 
   <Footer />
 </BaseLayout>
+
+<script>
+  const articleContent = document.getElementById('article-content');
+  const progressBar = document.getElementById('reading-progress-bar');
+  const progressLabel = document.getElementById('reading-progress-label');
+  const remainingLabel = document.getElementById('reading-remaining-label');
+
+  function updateReadingProgress() {
+    if (!(articleContent instanceof HTMLElement)) return;
+    if (!(progressBar instanceof HTMLElement)) return;
+    if (!(progressLabel instanceof HTMLElement)) return;
+    if (!(remainingLabel instanceof HTMLElement)) return;
+
+    const rect = articleContent.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const totalScrollable = Math.max(articleContent.offsetHeight - viewportHeight * 0.35, 1);
+    const progressed = Math.min(Math.max(viewportHeight * 0.65 - rect.top, 0), totalScrollable);
+    const percent = Math.min(100, Math.max(0, Math.round((progressed / totalScrollable) * 100)));
+
+    progressBar.style.width = `${percent}%`;
+    progressLabel.textContent = `阅读进度 ${percent}%`;
+
+    const remaining = Math.max(1, Math.ceil(((100 - percent) / 100) * 5));
+    remainingLabel.textContent = percent >= 96 ? '即将读完' : `预计剩余约 ${remaining} 分钟`;
+  }
+
+  updateReadingProgress();
+  window.addEventListener('scroll', updateReadingProgress, { passive: true });
+  window.addEventListener('resize', updateReadingProgress);
+</script>
