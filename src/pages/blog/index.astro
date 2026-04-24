@@ -16,7 +16,12 @@ const categoryMap = posts.reduce((acc, post) => {
 }, new Map<string, number>());
 
 const categories = Array.from(categoryMap.entries()).sort((a, b) => b[1] - a[1]);
-const coverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'];
+const coverImages = [
+  '/article-cover-knowledge-01.png',
+  '/article-cover-knowledge-02.png',
+  '/article-cover-knowledge-03.png',
+  '/article-cover-knowledge-04.png',
+];
 ---
 
 <BaseLayout title="文章" description="晨熠的所有博客文章">
@@ -32,7 +37,7 @@ const coverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'
               <Icon name="lucide:book-open" class="h-4 w-4" />
               ARCHIVE
             </p>
-            <h1 class="text-6xl font-bold tracking-tight text-slate-900">文章</h1>
+            <h1 class="text-5xl font-bold tracking-tight text-slate-900">文章</h1>
             <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
               把技术探索、学习札记与思考片段按时间展开。这里更像一条长长的航迹，能看到我最近在追逐什么、停留什么、又在重新理解什么。
             </p>
@@ -57,7 +62,7 @@ const coverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'
     <section class="mx-auto max-w-[1500px] px-6 pb-16">
       <div class="grid gap-8 xl:grid-cols-[minmax(0,1fr)_300px]">
         <div>
-          <div class="grid gap-6 lg:grid-cols-2">
+          <div class="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
             {posts.map((post, index) => {
               const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
                 year: 'numeric',
@@ -70,9 +75,9 @@ const coverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'
               return (
                 <a
                   href={`/blog/${post.id}`}
-                  class="group overflow-hidden rounded-[1.7rem] border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_62px_rgba(15,23,42,0.12)]"
+                  class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_14px_36px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(15,23,42,0.10)]"
                 >
-                  <div class="relative h-56 overflow-hidden">
+                  <div class="relative h-36 overflow-hidden">
                     <img
                       src={cover}
                       alt={post.data.title}
@@ -81,8 +86,8 @@ const coverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'
                     <div class="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(15,23,42,0.6)_100%)]"></div>
                   </div>
 
-                  <div class="px-6 pb-6 pt-5">
-                    <div class="mb-3 flex flex-wrap gap-2">
+                  <div class="px-5 pb-5 pt-4">
+                    <div class="mb-2 flex flex-wrap gap-2">
                       <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
                         {post.data.category}
                       </span>
@@ -93,17 +98,17 @@ const coverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'
                       ))}
                     </div>
 
-                    <h2 class="text-3xl font-semibold leading-snug text-slate-900 transition-colors duration-200 group-hover:text-orange-500">
+                    <h2 class="text-xl font-semibold leading-snug text-slate-900 transition-colors duration-200 group-hover:text-orange-500">
                       {post.data.title}
                     </h2>
 
                     {post.data.description && (
-                      <p class="mt-3 line-clamp-3 text-base leading-7 text-slate-500">
+                      <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">
                         {post.data.description}
                       </p>
                     )}
 
-                    <div class="mt-5 flex flex-wrap items-center gap-4 text-sm text-slate-400">
+                    <div class="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-400">
                       <span class="inline-flex items-center gap-1.5">
                         <Icon name="lucide:file-text" class="h-4 w-4" />
                         {formattedDate}

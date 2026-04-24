@@ -6,7 +6,12 @@ export async function getStaticPaths() {
   const posts = (await getCollection('blog')).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
-  const detailCoverImages = ['/hero-bg-new_1.png', '/hero-bg-v2_1.png', '/hero-bg_1.png'];
+  const detailCoverImages = [
+    '/article-cover-knowledge-01.png',
+    '/article-cover-knowledge-02.png',
+    '/article-cover-knowledge-03.png',
+    '/article-cover-knowledge-04.png',
+  ];
 
   return posts.map((post, index) => ({
     params: { slug: post.id },

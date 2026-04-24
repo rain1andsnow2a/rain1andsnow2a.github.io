@@ -34,6 +34,12 @@ const formattedUpdated = updatedDate
 
 const wordCount = '静读一篇';
 const readTime = '约 5 分钟';
+const tocItems = [
+  '初识《易经》',
+  '阴阳之道',
+  '三易之变',
+  '个人思考',
+];
 ---
 
 <BaseLayout title={title} description={description} pubDate={pubDate}>
@@ -41,14 +47,18 @@ const readTime = '约 5 分钟';
 
   <main class="flex-1">
     <section class="mx-auto max-w-[1500px] px-6 pb-8 pt-6">
-      <div class="relative overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(135deg,#ffffff_0%,#fff8ef_46%,#f6fbff_100%)] px-8 py-10 shadow-[0_28px_70px_rgba(15,23,42,0.10)]">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_20%,rgba(251,146,60,0.12),transparent_22%),radial-gradient(circle_at_82%_18%,rgba(56,189,248,0.12),transparent_22%)]"></div>
-        <div class="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <div class="relative overflow-hidden rounded-2xl border border-orange-100 bg-[linear-gradient(105deg,#fffaf2_0%,#ffffff_46%,#eef8ff_100%)] px-8 py-8 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_8%_58%,rgba(251,146,60,0.14),transparent_18%),radial-gradient(circle_at_92%_16%,rgba(56,189,248,0.14),transparent_20%)]"></div>
+        <div class="absolute left-0 bottom-0 h-full w-72 opacity-45">
+          <div class="h-full w-full bg-[radial-gradient(circle_at_18%_58%,rgba(251,191,36,0.22),transparent_16%),linear-gradient(135deg,rgba(251,146,60,0.16),transparent_54%)]"></div>
+        </div>
+
+        <div class="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-center">
           <div>
             <div class="flex flex-wrap items-center gap-2">
               <a
                 href={`/categories/${encodeURIComponent(category)}`}
-                class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-sm font-semibold text-emerald-600"
+                class="inline-flex items-center gap-2 rounded-full bg-orange-50 px-4 py-1.5 text-sm font-semibold text-orange-500"
               >
                 <Icon name="lucide:book-open" class="h-4 w-4" />
                 {category}
@@ -60,7 +70,7 @@ const readTime = '约 5 分钟';
               ))}
             </div>
 
-            <h1 class="mt-6 max-w-4xl text-5xl font-bold leading-tight tracking-tight text-slate-900 md:text-6xl">
+            <h1 class="mt-5 max-w-4xl text-5xl font-bold leading-tight tracking-tight text-slate-900">
               {title}
             </h1>
 
@@ -70,47 +80,47 @@ const readTime = '约 5 分钟';
               </p>
             )}
 
-            <div class="mt-8 flex flex-wrap items-center gap-3 text-sm text-slate-500">
+            <div class="mt-7 flex flex-wrap items-center gap-3 text-sm text-slate-500">
               {formattedDate && (
-                <span class="rounded-full border border-slate-200 bg-white/80 px-4 py-2">
+                <span class="rounded-full border border-slate-200 bg-white/90 px-4 py-2 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
                   发布于 {formattedDate}
                 </span>
               )}
               {formattedUpdated && (
-                <span class="rounded-full border border-slate-200 bg-white/80 px-4 py-2">
+                <span class="rounded-full border border-slate-200 bg-white/90 px-4 py-2 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
                   更新于 {formattedUpdated}
                 </span>
               )}
-              <span class="rounded-full border border-slate-200 bg-white/80 px-4 py-2">
+              <span class="rounded-full border border-slate-200 bg-white/90 px-4 py-2 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
                 {wordCount}
               </span>
-              <span class="rounded-full border border-slate-200 bg-white/80 px-4 py-2">
+              <span class="rounded-full border border-slate-200 bg-white/90 px-4 py-2 shadow-[0_8px_20px_rgba(15,23,42,0.04)]">
                 {readTime}
               </span>
             </div>
           </div>
 
           <aside class="flex items-start lg:justify-end">
-            <div class="w-full rounded-[1.8rem] border border-slate-200 bg-white/90 p-6 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
+            <div class="w-full rounded-2xl border border-slate-200 bg-white/92 p-5 shadow-[0_16px_40px_rgba(15,23,42,0.08)]">
               <div class="mx-auto h-24 w-24 overflow-hidden rounded-full border-4 border-orange-100 shadow-[0_12px_30px_rgba(15,23,42,0.10)]">
                 <img src="/头像.png" alt="晨熠的头像" class="h-full w-full object-cover" />
               </div>
-              <h2 class="mt-5 text-center text-3xl font-semibold text-slate-900">晨熠</h2>
-              <p class="mt-2 text-center text-base text-slate-500">Explorer & Dreamer</p>
+              <h2 class="mt-4 text-center text-2xl font-semibold text-slate-900">晨熠</h2>
+              <p class="mt-1 text-center text-sm text-slate-500">Explorer & Dreamer</p>
 
-              <div class="mt-6 space-y-3">
+              <div class="mt-5 space-y-3">
                 <a
                   href="https://github.com/rain1andsnow2a"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-base font-medium text-white transition-colors hover:bg-slate-800"
+                  class="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-base font-medium text-white transition-colors hover:bg-slate-800"
                 >
                   <Icon name="lucide:github" class="h-4 w-4" />
                   GitHub
                 </a>
                 <a
                   href="/blog"
-                  class="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:border-orange-200 hover:text-orange-500"
+                  class="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-base font-medium text-slate-700 transition-colors hover:border-orange-200 hover:text-orange-500"
                 >
                   <Icon name="lucide:arrow-right" class="h-4 w-4" />
                   返回文章列表
@@ -122,16 +132,44 @@ const readTime = '约 5 分钟';
       </div>
     </section>
 
-    <section class="mx-auto max-w-[980px] px-6 pb-16">
-      <article class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
+    <section class="mx-auto grid max-w-[1280px] gap-8 px-6 pb-16 lg:grid-cols-[220px_minmax(0,1fr)]">
+      <aside class="hidden lg:block">
+        <div class="sticky top-28 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_14px_36px_rgba(15,23,42,0.06)]">
+          <h2 class="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900">
+            <Icon name="lucide:book-open" class="h-4 w-4 text-orange-500" />
+            目录
+          </h2>
+          <div class="space-y-2 border-l border-slate-100">
+            {tocItems.map((item, index) => (
+              <div class:list={[
+                'pl-4 text-sm leading-8',
+                index === 0 ? 'border-l-2 border-orange-400 text-orange-500 -ml-px font-medium' : 'text-slate-500',
+              ]}>
+                {String(index + 1).padStart(2, '0')}　{item}
+              </div>
+            ))}
+          </div>
+          <div class="mt-5 border-t border-slate-100 pt-4 text-sm text-slate-400">
+            共 {tocItems.length} 个章节
+          </div>
+        </div>
+      </aside>
+
+      <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.07)]">
         {cover && (
-          <div class="relative h-72 overflow-hidden border-b border-slate-200">
+          <div class="relative h-56 overflow-hidden border-b border-slate-200">
             <img src={cover} alt={title} class="h-full w-full object-cover" />
-            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.05)_0%,rgba(15,23,42,0.28)_100%)]"></div>
+            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.04)_0%,rgba(15,23,42,0.24)_100%)]"></div>
           </div>
         )}
+        <div class="px-8 pt-7">
+          <div class="h-1.5 rounded-full bg-slate-100">
+            <div class="h-full w-[5%] rounded-full bg-orange-400"></div>
+          </div>
+          <div class="mt-2 text-sm text-slate-400">阅读进度 5%</div>
+        </div>
         <div
-          class="prose prose-lg max-w-none px-8 py-10 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-p:leading-8 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:text-orange-600 prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:border prose-pre:border-slate-200 prose-pre:bg-slate-950 prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
+          class="prose prose-lg max-w-none px-8 py-8 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-p:leading-8 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:text-orange-600 prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:border prose-pre:border-slate-200 prose-pre:bg-slate-950 prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
         >
           <slot />
         </div>
