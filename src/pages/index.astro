@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import LocalIcon from '../components/LocalIcon.astro';
+import { getCategoryMeta } from '../utils/categoryMeta';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
@@ -240,15 +241,7 @@ const cardImages = [
             <h3 class="text-3xl font-semibold text-slate-900">分类</h3>
             <div class="mt-5 space-y-3">
               {categories.slice(0, 6).map((category, index) => {
-                const accentClasses = [
-                  'text-indigo-600 bg-indigo-50',
-                  'text-emerald-600 bg-emerald-50',
-                  'text-sky-600 bg-sky-50',
-                  'text-orange-600 bg-orange-50',
-                  'text-rose-600 bg-rose-50',
-                  'text-violet-600 bg-violet-50',
-                ];
-                const accent = accentClasses[index % accentClasses.length];
+                const meta = getCategoryMeta(category.name, index);
 
                 return (
                   <a
@@ -256,8 +249,8 @@ const cardImages = [
                     class="flex items-center justify-between rounded-2xl px-3 py-3 transition-colors hover:bg-slate-50"
                   >
                     <span class="flex items-center gap-3">
-                      <span class={`flex h-9 w-9 items-center justify-center rounded-xl ${accent}`}>
-                        <LocalIcon name="book-open" class="h-4 w-4" />
+                      <span class={`flex h-9 w-9 items-center justify-center rounded-xl border ${meta.soft} ${meta.accent} ${meta.ring}`}>
+                        <LocalIcon name={meta.icon} class="h-4 w-4" />
                       </span>
                       <span class="text-lg font-medium text-slate-700">{category.name}</span>
                     </span>
