@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { Icon } from 'astro-icon/components';
+import LocalIcon from '../components/LocalIcon.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
@@ -36,9 +36,9 @@ const tags = Array.from(tagMap.entries())
 const tagCount = tags.length;
 const categoryCount = categories.length;
 const profileBadges = [
-  { href: 'https://github.com/rain1andsnow2a', label: 'GitHub', icon: 'lucide:github' },
-  { href: 'mailto:rain1andsnow2a@outlook.com', label: 'Email', icon: 'lucide:user' },
-  { href: '/categories', label: '分类', icon: 'lucide:book-open' },
+  { href: 'https://github.com/rain1andsnow2a', label: 'GitHub', icon: 'github' },
+  { href: 'mailto:rain1andsnow2a@outlook.com', label: 'Email', icon: 'mail' },
+  { href: '/categories', label: '分类', icon: 'rss' },
 ];
 
 const cardImages = [
@@ -73,7 +73,7 @@ const cardImages = [
 
             <div class="hero-reveal hero-delay-0 flex items-center gap-4">
               <span class="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/35 bg-amber-300/12 text-amber-300 shadow-[0_0_30px_rgba(251,191,36,0.18)]">
-                <Icon name="lucide:sparkles" class="h-6 w-6" />
+                <LocalIcon name="sparkles" class="h-6 w-6" />
               </span>
               <div>
                 <h1 class="hero-title text-white">晨熠</h1>
@@ -99,22 +99,14 @@ const cardImages = [
                 href="/blog"
                 class="inline-flex items-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#fb923c,#f97316)] px-6 py-3 text-base font-semibold text-white shadow-[0_18px_38px_rgba(249,115,22,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_46px_rgba(249,115,22,0.42)]"
               >
-                <svg class="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4.5 16.5c-1.1 1.1-1.5 3-1.5 4.5 1.5 0 3.4-.4 4.5-1.5" />
-                  <path d="M9 15 5 19" />
-                  <path d="M15 3c-3.4.7-6.1 2.4-8 5l-2 3 4 4 3-2c2.6-1.9 4.3-4.6 5-8l-2-2Z" />
-                  <path d="M14 4.5 19.5 10" />
-                </svg>
+                <LocalIcon name="rocket" class="h-4 w-4" />
                 探索文章
               </a>
               <a
                 href="#about"
                 class="inline-flex items-center gap-2 rounded-2xl border border-white/55 bg-white/8 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/14"
               >
-                <svg class="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="8" r="4" />
-                  <path d="M4 21c1.7-4 4.3-6 8-6s6.3 2 8 6" />
-                </svg>
+                <LocalIcon name="file-text" class="h-4 w-4" />
                 关于我
               </a>
             </div>
@@ -156,7 +148,7 @@ const cardImages = [
                     aria-label={item.label}
                     class="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/18 bg-white/12 text-white/90 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/20"
                   >
-                    <Icon name={item.icon} class="h-5 w-5" />
+                    <LocalIcon name={item.icon} class="h-5 w-5" />
                   </a>
                 ))}
               </div>
@@ -171,7 +163,7 @@ const cardImages = [
         <div>
           <div class="mb-5 flex items-center justify-between">
             <h2 class="flex items-center gap-2 text-3xl font-semibold text-slate-900">
-              <Icon name="lucide:book-open" class="h-6 w-6 text-orange-500" />
+              <LocalIcon name="book-open" class="h-6 w-6 text-orange-500" />
               最近文章
             </h2>
             <a
@@ -179,7 +171,7 @@ const cardImages = [
               class="group inline-flex items-center gap-2 text-base font-medium text-orange-500 transition-colors hover:text-orange-600"
             >
               查看全部
-              <Icon name="lucide:arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <LocalIcon name="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
           </div>
 
@@ -228,11 +220,11 @@ const cardImages = [
 
                     <div class="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-400">
                       <span class="inline-flex items-center gap-1.5">
-                        <Icon name="lucide:file-text" class="h-4 w-4" />
+                        <LocalIcon name="calendar-days" class="h-4 w-4" />
                         {formattedDate}
                       </span>
                       <span class="inline-flex items-center gap-1.5">
-                        <Icon name="lucide:book-open" class="h-4 w-4" />
+                        <LocalIcon name="clock-3" class="h-4 w-4" />
                         {readingMinutes} 分钟阅读
                       </span>
                     </div>
@@ -265,7 +257,7 @@ const cardImages = [
                   >
                     <span class="flex items-center gap-3">
                       <span class={`flex h-9 w-9 items-center justify-center rounded-xl ${accent}`}>
-                        <Icon name="lucide:book-open" class="h-4 w-4" />
+                        <LocalIcon name="book-open" class="h-4 w-4" />
                       </span>
                       <span class="text-lg font-medium text-slate-700">{category.name}</span>
                     </span>
@@ -313,7 +305,7 @@ const cardImages = [
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 rounded-2xl border border-slate-200 px-6 py-3 text-base font-medium text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-300 hover:text-orange-500"
           >
-            <Icon name="lucide:github" class="h-5 w-5" />
+            <LocalIcon name="github" class="h-5 w-5" />
             访问 GitHub
           </a>
         </div>

@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { Icon } from 'astro-icon/components';
+import LocalIcon from '../../components/LocalIcon.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
@@ -29,7 +29,7 @@ const categories = Array.from(categoryMap.entries()).sort((a, b) => {
     <section class="border-b border-stone-200 bg-[linear-gradient(180deg,rgba(237,253,250,0.9),rgba(255,255,255,0.95))]">
       <div class="max-w-5xl mx-auto px-6 py-16">
         <div class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/80 px-4 py-2 text-sm text-emerald-700 shadow-sm">
-          <Icon name="lucide:book-open" class="h-4 w-4" />
+          <LocalIcon name="book-open" class="h-4 w-4" />
           分类导航
         </div>
         <h1 class="mt-5 text-4xl font-bold text-slate-900">Categories</h1>
@@ -50,7 +50,7 @@ const categories = Array.from(categoryMap.entries()).sort((a, b) => {
               >
                 <span class="flex items-center gap-3 min-w-0">
                   <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-                    <Icon name="lucide:file-text" class="h-4 w-4" />
+                    <LocalIcon name="file-text" class="h-4 w-4" />
                   </span>
                   <span class="min-w-0">
                     <span class="block truncate text-lg font-semibold text-slate-800 group-hover:text-emerald-800">
@@ -103,7 +103,7 @@ const categories = Array.from(categoryMap.entries()).sort((a, b) => {
             rel="noopener noreferrer"
             class="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-white transition-colors hover:bg-slate-800"
           >
-            <Icon name="lucide:github" class="h-4 w-4" />
+            <LocalIcon name="github" class="h-4 w-4" />
             Follow Me
           </a>
         </aside>

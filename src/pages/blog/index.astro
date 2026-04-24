@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { Icon } from 'astro-icon/components';
+import LocalIcon from '../../components/LocalIcon.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
@@ -34,7 +34,7 @@ const coverImages = [
         <div class="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-end">
           <div>
             <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-sm font-medium tracking-[0.2em] text-orange-500">
-              <Icon name="lucide:book-open" class="h-4 w-4" />
+              <LocalIcon name="book-open" class="h-4 w-4" />
               ARCHIVE
             </p>
             <h1 class="text-5xl font-bold tracking-tight text-slate-900">文章</h1>
@@ -110,11 +110,11 @@ const coverImages = [
 
                     <div class="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-400">
                       <span class="inline-flex items-center gap-1.5">
-                        <Icon name="lucide:file-text" class="h-4 w-4" />
+                        <LocalIcon name="calendar-days" class="h-4 w-4" />
                         {formattedDate}
                       </span>
                       <span class="inline-flex items-center gap-1.5">
-                        <Icon name="lucide:book-open" class="h-4 w-4" />
+                        <LocalIcon name="clock-3" class="h-4 w-4" />
                         {readingMinutes} 分钟阅读
                       </span>
                     </div>
@@ -153,7 +153,7 @@ const coverImages = [
                   >
                     <span class="flex items-center gap-3">
                       <span class={`flex h-9 w-9 items-center justify-center rounded-xl ${tone}`}>
-                        <Icon name="lucide:book-open" class="h-4 w-4" />
+                        <LocalIcon name="book-open" class="h-4 w-4" />
                       </span>
                       <span class="text-lg font-medium text-slate-700">{name}</span>
                     </span>

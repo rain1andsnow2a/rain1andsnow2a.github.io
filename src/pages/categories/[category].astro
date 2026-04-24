@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { Icon } from 'astro-icon/components';
+import LocalIcon from '../../components/LocalIcon.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -29,7 +29,7 @@ const posts = (await getCollection('blog'))
         返回分类总览
       </a>
       <div class="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/90 px-4 py-2 text-sm text-emerald-700">
-        <Icon name="lucide:book-open" class="h-4 w-4" />
+        <LocalIcon name="book-open" class="h-4 w-4" />
         {category}
       </div>
       <h1 class="mt-4 text-4xl font-bold text-slate-900">{category}</h1>
