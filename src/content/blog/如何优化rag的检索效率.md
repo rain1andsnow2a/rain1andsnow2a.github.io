@@ -6,7 +6,7 @@ category: AI
 tags:
   - AI
   - RAG
-updatedDate: '2026-04-20'
+updatedDate: '2026-04-27'
 ---
 如果要给AI在某些专业的领域变得更强，一般有几种方法
 
