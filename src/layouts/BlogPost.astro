@@ -170,7 +170,7 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
         </div>
         <div
           id="article-content"
-          class="prose prose-lg max-w-none px-8 py-8 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-p:leading-8 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:text-orange-600 prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:border prose-pre:border-slate-200 prose-pre:bg-slate-950 prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
+          class="article-prose prose prose-lg max-w-none px-8 py-8 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-p:leading-8 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:before:content-[''] prose-code:after:content-[''] prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
         >
           <slot />
         </div>
@@ -210,3 +210,65 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
   window.addEventListener('scroll', updateReadingProgress, { passive: true });
   window.addEventListener('resize', updateReadingProgress);
 </script>
+
+<style>
+  .article-prose :global(:not(pre) > code) {
+    border: 1px solid rgba(251, 146, 60, 0.18);
+    border-radius: 0.45rem;
+    background: linear-gradient(180deg, rgba(255, 247, 237, 0.95), rgba(255, 237, 213, 0.72));
+    padding: 0.12rem 0.38rem;
+    color: #c2410c;
+    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    font-weight: 600;
+  }
+
+  .article-prose :global(pre) {
+    position: relative;
+    margin: 1.8rem 0;
+    overflow: hidden;
+    border: 1px solid rgba(30, 41, 59, 0.82);
+    border-radius: 1rem;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(251, 146, 60, 0.14), transparent 28%),
+      linear-gradient(135deg, #151a22 0%, #20262e 55%, #111827 100%);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
+  }
+
+  .article-prose :global(pre::before) {
+    content: '';
+    display: block;
+    height: 2.35rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+    background:
+      radial-gradient(circle at 1.1rem 50%, #fb7185 0 0.28rem, transparent 0.31rem),
+      radial-gradient(circle at 2.1rem 50%, #fbbf24 0 0.28rem, transparent 0.31rem),
+      radial-gradient(circle at 3.1rem 50%, #34d399 0 0.28rem, transparent 0.31rem),
+      rgba(15, 23, 42, 0.38);
+  }
+
+  .article-prose :global(pre code) {
+    display: block;
+    overflow-x: auto;
+    padding: 1.35rem 1.55rem;
+    background: transparent;
+    color: #f97316;
+    font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.94rem;
+    line-height: 1.9;
+    tab-size: 2;
+  }
+
+  .article-prose :global(pre code .line) {
+    min-height: 1.9em;
+  }
+
+  .article-prose :global(pre code::-webkit-scrollbar) {
+    height: 0.55rem;
+  }
+
+  .article-prose :global(pre code::-webkit-scrollbar-thumb) {
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.35);
+  }
+</style>
