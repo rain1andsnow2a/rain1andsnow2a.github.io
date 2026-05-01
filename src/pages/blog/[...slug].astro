@@ -26,6 +26,28 @@ type Props = CollectionEntry<'blog'> & { cover?: string };
 
 const post = Astro.props;
 const { Content, headings } = await post.render();
+
+const rawHeadings: Array<{ depth: number; text: string }> = [];
+const lines = post.body.split('\n');
+let inFence = false;
+for (const line of lines) {
+  if (/^\s*```/.test(line)) {
+    inFence = !inFence;
+    continue;
+  }
+  if (inFence) continue;
+  const m = /^(#{1,6})\s+(.*?)\s*#*\s*$/.exec(line);
+  if (m) rawHeadings.push({ depth: m[1].length, text: m[2] });
+}
+
+const enrichedHeadings = headings.map((h) => {
+  const idx = rawHeadings.findIndex((r) => r.depth === h.depth);
+  if (idx >= 0) {
+    const raw = rawHeadings.splice(idx, 1)[0];
+    return { ...h, text: raw.text };
+  }
+  return h;
+});
 ---
 
 <BlogPost
@@ -36,7 +58,7 @@ const { Content, headings } = await post.render();
   category={post.data.category}
   tags={post.data.tags}
   cover={post.cover}
-  headings={headings}
+  headings={enrichedHeadings}
 >
   <Content />
 </BlogPost>
