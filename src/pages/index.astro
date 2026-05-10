@@ -53,59 +53,7 @@ const cardImages = [
 <BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
   <Header />
 
-  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="serif">
-    <details class="design-panel group fixed bottom-5 right-4 z-[60] w-[min(24rem,calc(100vw-2rem))] rounded-3xl border border-slate-200/80 bg-white/92 p-3 shadow-[0_24px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl">
-      <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-3 py-2 text-slate-800">
-        <span class="inline-flex items-center gap-2 text-sm font-semibold">
-          <LocalIcon name="sliders-horizontal" class="h-4 w-4 text-orange-500" />
-          首页设计调节
-        </span>
-        <span class="rounded-full bg-orange-50 px-2.5 py-1 text-xs font-medium text-orange-600">生成提示词</span>
-      </summary>
-
-      <div class="mt-3 space-y-4 px-2 pb-2">
-        <label class="block text-sm font-medium text-slate-700">
-          标题字体
-          <select id="font-control" class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-orange-300">
-            <option value="serif">典雅宋体</option>
-            <option value="brush">书写艺术字</option>
-            <option value="playful">圆润艺术字</option>
-            <option value="sans">现代黑体</option>
-          </select>
-        </label>
-
-        <label class="design-range">
-          <span>标题大小 <b id="title-size-value">82</b>px</span>
-          <input id="title-size-control" type="range" min="52" max="104" value="82" />
-        </label>
-
-        <label class="design-range">
-          <span>副标题大小 <b id="subtitle-size-value">30</b>px</span>
-          <input id="subtitle-size-control" type="range" min="20" max="40" value="30" />
-        </label>
-
-        <label class="design-range">
-          <span>左右比例 <b id="ratio-value">58</b>% / <b id="profile-ratio-value">300</b>px</span>
-          <input id="ratio-control" type="range" min="48" max="72" value="58" />
-        </label>
-
-        <label class="design-range">
-          <span>头像卡宽度 <b id="profile-width-value">300</b>px</span>
-          <input id="profile-width-control" type="range" min="240" max="380" value="300" />
-        </label>
-
-        <label class="design-range">
-          <span>区块间距 <b id="section-gap-value">32</b>px</span>
-          <input id="section-gap-control" type="range" min="18" max="56" value="32" />
-        </label>
-
-        <label class="block text-sm font-medium text-slate-700">
-          可复制给 Codex 的提示词
-          <textarea id="design-prompt-output" class="mt-2 h-28 w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs leading-5 text-slate-600 outline-none" readonly></textarea>
-        </label>
-      </div>
-    </details>
-
+  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush">
     <section class="mx-auto max-w-[1500px] px-4 pb-7 pt-4 sm:px-6 sm:pt-6">
       <div class="hero-shell relative overflow-hidden rounded-[1.6rem] border border-white/60 shadow-[0_22px_56px_rgba(15,23,42,0.14)]">
         <img
@@ -351,12 +299,12 @@ const cardImages = [
 
 <style>
   .home-design-surface {
-    --hero-title-size: 82px;
-    --hero-subtitle-size: 30px;
+    --hero-title-size: 68px;
+    --hero-subtitle-size: 25px;
     --hero-copy-size: 18px;
-    --profile-width: 300px;
-    --section-gap: 32px;
-    --hero-copy-fr: 1.2fr;
+    --profile-width: 291px;
+    --section-gap: 18px;
+    --hero-copy-fr: 1.1fr;
   }
 
   .hero-layout {
@@ -442,29 +390,6 @@ const cardImages = [
     padding-bottom: calc(var(--section-gap) * 0.55);
   }
 
-  .design-panel summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .design-range {
-    display: block;
-    color: #334155;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-  .design-range span {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .design-range input {
-    width: 100%;
-    margin-top: 0.5rem;
-    accent-color: #f97316;
-  }
-
   .hero-reveal {
     animation: heroRise 0.82s ease-out forwards;
     opacity: 0;
@@ -528,10 +453,6 @@ const cardImages = [
       font-size: 1rem;
     }
 
-    .design-panel {
-      bottom: 1rem;
-      right: 1rem;
-    }
   }
 
   @media (max-width: 520px) {
@@ -580,78 +501,4 @@ const cardImages = [
   }
 
   runTypewriter();
-
-  const designSurface = document.getElementById('home-design-surface');
-  const fontControl = document.getElementById('font-control');
-  const titleSizeControl = document.getElementById('title-size-control');
-  const subtitleSizeControl = document.getElementById('subtitle-size-control');
-  const ratioControl = document.getElementById('ratio-control');
-  const profileWidthControl = document.getElementById('profile-width-control');
-  const sectionGapControl = document.getElementById('section-gap-control');
-  const promptOutput = document.getElementById('design-prompt-output');
-
-  const designState = {
-    font: 'serif',
-    titleSize: 82,
-    subtitleSize: 30,
-    ratio: 58,
-    profileWidth: 300,
-    sectionGap: 32,
-  };
-
-  const fontLabels = {
-    serif: '典雅宋体',
-    brush: '书写艺术字',
-    playful: '圆润艺术字',
-    sans: '现代黑体',
-  };
-
-  function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = String(value);
-  }
-
-  function applyDesignState() {
-    if (!(designSurface instanceof HTMLElement)) return;
-
-    designSurface.dataset.titleFont = designState.font;
-    designSurface.style.setProperty('--hero-title-size', `${designState.titleSize}px`);
-    designSurface.style.setProperty('--hero-subtitle-size', `${designState.subtitleSize}px`);
-    designSurface.style.setProperty('--profile-width', `${designState.profileWidth}px`);
-    designSurface.style.setProperty('--section-gap', `${designState.sectionGap}px`);
-    designSurface.style.setProperty('--hero-copy-fr', `${(designState.ratio / 50).toFixed(2)}fr`);
-
-    setText('title-size-value', designState.titleSize);
-    setText('subtitle-size-value', designState.subtitleSize);
-    setText('ratio-value', designState.ratio);
-    setText('profile-ratio-value', designState.profileWidth);
-    setText('profile-width-value', designState.profileWidth);
-    setText('section-gap-value', designState.sectionGap);
-
-    if (promptOutput instanceof HTMLTextAreaElement) {
-      promptOutput.value = `请按这个首页视觉参数修改博客：标题字体使用${fontLabels[designState.font] || designState.font}，hero 主标题约 ${designState.titleSize}px，副标题约 ${designState.subtitleSize}px；桌面端左侧内容占比约 ${designState.ratio}%，右侧头像卡宽度约 ${designState.profileWidth}px；首页上下区块间距约 ${designState.sectionGap}px。保持当前已删除的英文标语和多余装饰符号不要恢复，同时继续保证移动端单列排版、按钮不换行溢出、头像卡不挤压正文。`;
-    }
-  }
-
-  function bindControl(control, key) {
-    if (!(control instanceof HTMLInputElement)) return;
-    control.addEventListener('input', () => {
-      designState[key] = Number(control.value);
-      applyDesignState();
-    });
-  }
-
-  if (fontControl instanceof HTMLSelectElement) {
-    fontControl.addEventListener('change', () => {
-      designState.font = fontControl.value;
-      applyDesignState();
-    });
-  }
-
-  bindControl(titleSizeControl, 'titleSize');
-  bindControl(subtitleSizeControl, 'subtitleSize');
-  bindControl(ratioControl, 'ratio');
-  bindControl(profileWidthControl, 'profileWidth');
-  bindControl(sectionGapControl, 'sectionGap');
-  applyDesignState();
 </script>
