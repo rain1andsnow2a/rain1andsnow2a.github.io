@@ -135,7 +135,6 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
                 <img src="/头像.png" alt="晨熠的头像" class="h-full w-full object-cover" />
               </div>
               <h2 class="mt-4 text-center text-2xl font-semibold text-slate-900">晨熠</h2>
-              <p class="mt-1 text-center text-sm text-slate-500">Explorer & Dreamer</p>
 
               <div class="mt-5 space-y-3">
                 <a
@@ -215,6 +214,40 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
   const progressLabel = document.getElementById('reading-progress-label');
   const remainingLabel = document.getElementById('reading-remaining-label');
 
+  async function renderMermaidBlocks() {
+    if (!(articleContent instanceof HTMLElement)) return;
+
+    const blocks = articleContent.querySelectorAll('pre > code.language-mermaid');
+    blocks.forEach((code) => {
+      const pre = code.parentElement;
+      if (!(pre instanceof HTMLPreElement)) return;
+
+      const diagram = document.createElement('div');
+      diagram.className = 'mermaid';
+      diagram.textContent = code.textContent || '';
+
+      const frame = document.createElement('div');
+      frame.className = 'mermaid-diagram';
+      frame.appendChild(diagram);
+
+      pre.replaceWith(frame);
+    });
+
+    if (blocks.length === 0) return;
+
+    try {
+      const { default: mermaid } = await import('mermaid');
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'strict',
+        theme: 'default',
+      });
+      await mermaid.run({ querySelector: '#article-content .mermaid' });
+    } catch (err) {
+      console.error('Mermaid render failed:', err);
+    }
+  }
+
   function updateReadingProgress() {
     if (!(articleContent instanceof HTMLElement)) return;
     if (!(progressBar instanceof HTMLElement)) return;
@@ -234,6 +267,7 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
     remainingLabel.textContent = percent >= 96 ? '即将读完' : `预计剩余约 ${remaining} 分钟`;
   }
 
+  renderMermaidBlocks();
   updateReadingProgress();
   window.addEventListener('scroll', updateReadingProgress, { passive: true });
   window.addEventListener('resize', updateReadingProgress);
@@ -298,5 +332,26 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
   .article-prose :global(pre code::-webkit-scrollbar-thumb) {
     border-radius: 999px;
     background: rgba(148, 163, 184, 0.35);
+  }
+
+  .article-prose :global(.mermaid-diagram) {
+    margin: 1.8rem 0;
+    overflow-x: auto;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 1rem;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    padding: 1.25rem;
+    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08);
+  }
+
+  .article-prose :global(.mermaid) {
+    display: flex;
+    min-width: max-content;
+    justify-content: center;
+  }
+
+  .article-prose :global(.mermaid svg) {
+    height: auto;
+    max-width: 100%;
   }
 </style>

@@ -4,14 +4,14 @@ const currentPath = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 border-b border-stone-200/80 backdrop-blur-xl bg-white/82 shadow-[0_14px_40px_rgba(148,163,184,0.10)]">
-  <nav class="mx-auto flex max-w-[1500px] items-center justify-between px-6 py-4">
+  <nav class="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-4">
     <a href="/" class="flex items-center gap-2 group">
       <LocalIcon name="flame" class="w-5 h-5 text-amber-500 group-hover:text-amber-400 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(245,158,11,0.35)]" />
-      <span class="text-2xl font-semibold tracking-tight text-slate-800 group-hover:text-amber-500 transition-colors duration-200">
+      <span class="text-xl font-semibold tracking-tight text-slate-800 transition-colors duration-200 group-hover:text-amber-500 md:text-2xl">
         晨熠
       </span>
     </a>
-    <div class="flex items-center gap-7 text-base">
+    <div class="hidden items-center gap-7 text-base lg:flex">
       <a
         href="/"
         class:list={[
@@ -73,5 +73,33 @@ const currentPath = Astro.url.pathname;
         搜索
       </a>
     </div>
+
+    <details class="group relative lg:hidden">
+      <summary class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-2xl border border-stone-200 bg-white/80 text-slate-700 shadow-[0_10px_24px_rgba(15,23,42,0.08)] transition-colors hover:text-orange-500">
+        <LocalIcon name="menu" class="h-5 w-5" />
+      </summary>
+      <div class="absolute right-0 top-12 w-56 overflow-hidden rounded-2xl border border-stone-200 bg-white p-2 text-base shadow-[0_20px_50px_rgba(15,23,42,0.16)]">
+        <a href="/" class="flex items-center gap-2 rounded-xl px-3 py-2 text-stone-600 hover:bg-orange-50 hover:text-orange-500">
+          <LocalIcon name="house" class="w-4 h-4" />
+          首页
+        </a>
+        <a href="/blog" class="flex items-center gap-2 rounded-xl px-3 py-2 text-stone-600 hover:bg-sky-50 hover:text-sky-600">
+          <LocalIcon name="book-open" class="w-4 h-4" />
+          文章
+        </a>
+        <a href="/categories" class="flex items-center gap-2 rounded-xl px-3 py-2 text-stone-600 hover:bg-emerald-50 hover:text-emerald-600">
+          <LocalIcon name="layout-grid" class="w-4 h-4" />
+          分类
+        </a>
+        <a href="/#tags" class="flex items-center gap-2 rounded-xl px-3 py-2 text-stone-600 hover:bg-violet-50 hover:text-violet-600">
+          <LocalIcon name="tag" class="w-4 h-4" />
+          标签
+        </a>
+        <a href="/#about" class="flex items-center gap-2 rounded-xl px-3 py-2 text-stone-600 hover:bg-slate-50 hover:text-slate-800">
+          <LocalIcon name="user" class="w-4 h-4" />
+          关于
+        </a>
+      </div>
+    </details>
   </nav>
 </header>

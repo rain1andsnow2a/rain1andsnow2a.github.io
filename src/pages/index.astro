@@ -53,8 +53,60 @@ const cardImages = [
 <BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
   <Header />
 
-  <main class="flex-1">
-    <section class="mx-auto max-w-[1500px] px-6 pb-7 pt-6">
+  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="serif">
+    <details class="design-panel group fixed bottom-5 right-4 z-[60] w-[min(24rem,calc(100vw-2rem))] rounded-3xl border border-slate-200/80 bg-white/92 p-3 shadow-[0_24px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-3 py-2 text-slate-800">
+        <span class="inline-flex items-center gap-2 text-sm font-semibold">
+          <LocalIcon name="sliders-horizontal" class="h-4 w-4 text-orange-500" />
+          首页设计调节
+        </span>
+        <span class="rounded-full bg-orange-50 px-2.5 py-1 text-xs font-medium text-orange-600">生成提示词</span>
+      </summary>
+
+      <div class="mt-3 space-y-4 px-2 pb-2">
+        <label class="block text-sm font-medium text-slate-700">
+          标题字体
+          <select id="font-control" class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none focus:border-orange-300">
+            <option value="serif">典雅宋体</option>
+            <option value="brush">书写艺术字</option>
+            <option value="playful">圆润艺术字</option>
+            <option value="sans">现代黑体</option>
+          </select>
+        </label>
+
+        <label class="design-range">
+          <span>标题大小 <b id="title-size-value">82</b>px</span>
+          <input id="title-size-control" type="range" min="52" max="104" value="82" />
+        </label>
+
+        <label class="design-range">
+          <span>副标题大小 <b id="subtitle-size-value">30</b>px</span>
+          <input id="subtitle-size-control" type="range" min="20" max="40" value="30" />
+        </label>
+
+        <label class="design-range">
+          <span>左右比例 <b id="ratio-value">58</b>% / <b id="profile-ratio-value">300</b>px</span>
+          <input id="ratio-control" type="range" min="48" max="72" value="58" />
+        </label>
+
+        <label class="design-range">
+          <span>头像卡宽度 <b id="profile-width-value">300</b>px</span>
+          <input id="profile-width-control" type="range" min="240" max="380" value="300" />
+        </label>
+
+        <label class="design-range">
+          <span>区块间距 <b id="section-gap-value">32</b>px</span>
+          <input id="section-gap-control" type="range" min="18" max="56" value="32" />
+        </label>
+
+        <label class="block text-sm font-medium text-slate-700">
+          可复制给 Codex 的提示词
+          <textarea id="design-prompt-output" class="mt-2 h-28 w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs leading-5 text-slate-600 outline-none" readonly></textarea>
+        </label>
+      </div>
+    </details>
+
+    <section class="mx-auto max-w-[1500px] px-4 pb-7 pt-4 sm:px-6 sm:pt-6">
       <div class="hero-shell relative overflow-hidden rounded-[1.6rem] border border-white/60 shadow-[0_22px_56px_rgba(15,23,42,0.14)]">
         <img
           src="/ChatGPT Image 2026年4月24日 09_09_29.png"
@@ -64,29 +116,18 @@ const cardImages = [
         <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,23,42,0.76)_0%,rgba(15,23,42,0.46)_38%,rgba(30,41,59,0.22)_100%)]"></div>
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,197,86,0.25),transparent_18%),radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.16),transparent_16%)]"></div>
 
-        <div class="relative z-10 grid min-h-[430px] gap-8 px-8 py-8 lg:grid-cols-[minmax(0,1.2fr)_300px] lg:px-11 lg:py-9">
+        <div class="hero-layout relative z-10 grid gap-8 px-5 py-7 sm:px-8 sm:py-8 lg:px-11 lg:py-9">
           <div class="flex flex-col justify-center">
-            <div class="mb-5 inline-flex items-center gap-3 text-amber-300">
-              <span class="rounded-full border border-amber-300/40 bg-white/10 px-3 py-1 text-xs font-medium tracking-[0.28em] text-amber-200">
-                COSMIC NOTEBOOK
-              </span>
+            <div class="hero-reveal hero-delay-0">
+              <h1 class="hero-title text-white">晨熠</h1>
+              <div class="hero-title-rule mt-3 h-1.5 rounded-full bg-[linear-gradient(90deg,#fb923c_0%,#fdba74_52%,transparent_100%)]"></div>
             </div>
 
-            <div class="hero-reveal hero-delay-0 flex items-center gap-4">
-              <span class="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/35 bg-amber-300/12 text-amber-300 shadow-[0_0_30px_rgba(251,191,36,0.18)]">
-                <LocalIcon name="sparkles" class="h-6 w-6" />
-              </span>
-              <div>
-                <h1 class="hero-title text-white">晨熠</h1>
-                <div class="mt-2 h-1.5 w-44 rounded-full bg-[linear-gradient(90deg,#fb923c_0%,#fdba74_50%,transparent_100%)]"></div>
-              </div>
-            </div>
-
-            <p class="hero-reveal hero-delay-1 mt-6 text-3xl font-semibold tracking-tight text-white/95">
+            <p class="hero-subtitle hero-reveal hero-delay-1 mt-6 font-semibold tracking-tight text-white/95">
               深空中的丁火，寒夜里的极光
             </p>
 
-            <p class="hero-reveal hero-delay-2 mt-5 max-w-2xl text-lg leading-relaxed text-slate-100/92">
+            <p class="hero-copy hero-reveal hero-delay-2 mt-5 max-w-2xl leading-relaxed text-slate-100/92">
               <span
                 id="hero-typed"
                 class="typewriter-copy"
@@ -114,7 +155,7 @@ const cardImages = [
           </div>
 
           <aside class="hero-reveal hero-delay-2 flex items-center lg:justify-end">
-            <div class="w-full rounded-[1.7rem] border border-white/20 bg-[linear-gradient(180deg,rgba(36,50,104,0.62),rgba(18,29,69,0.56))] p-6 text-white shadow-[0_24px_50px_rgba(15,23,42,0.22)] backdrop-blur-xl">
+            <div class="profile-card w-full rounded-[1.7rem] border border-white/20 bg-[linear-gradient(180deg,rgba(36,50,104,0.62),rgba(18,29,69,0.56))] p-6 text-white shadow-[0_24px_50px_rgba(15,23,42,0.22)] backdrop-blur-xl">
               <div class="mx-auto h-24 w-24 overflow-hidden rounded-full border-4 border-white/40 shadow-[0_18px_42px_rgba(15,23,42,0.25)]">
                 <img
                   src="/头像.png"
@@ -122,8 +163,7 @@ const cardImages = [
                   class="h-full w-full object-cover"
                 />
               </div>
-              <h2 class="mt-4 text-center text-3xl font-semibold text-white">晨熠</h2>
-              <p class="mt-2 text-center text-base text-slate-200/92">Explorer & Dreamer</p>
+              <h2 class="profile-name mt-4 text-center font-semibold text-white">晨熠</h2>
 
               <div class="mt-6 grid grid-cols-3 gap-3 text-center">
                 <div>
@@ -310,6 +350,51 @@ const cardImages = [
 </BaseLayout>
 
 <style>
+  .home-design-surface {
+    --hero-title-size: 82px;
+    --hero-subtitle-size: 30px;
+    --hero-copy-size: 18px;
+    --profile-width: 300px;
+    --section-gap: 32px;
+    --hero-copy-fr: 1.2fr;
+  }
+
+  .hero-layout {
+    min-height: 430px;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-layout {
+      grid-template-columns: minmax(0, var(--hero-copy-fr)) minmax(240px, var(--profile-width));
+    }
+  }
+
+  .profile-card {
+    max-width: var(--profile-width);
+  }
+
+  .home-design-surface[data-title-font='serif'] .hero-title,
+  .home-design-surface[data-title-font='serif'] .profile-name {
+    font-family: 'Noto Serif SC', 'Noto Sans SC', serif;
+  }
+
+  .home-design-surface[data-title-font='brush'] .hero-title,
+  .home-design-surface[data-title-font='brush'] .profile-name {
+    font-family: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+    font-weight: 400;
+  }
+
+  .home-design-surface[data-title-font='playful'] .hero-title,
+  .home-design-surface[data-title-font='playful'] .profile-name {
+    font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+    font-weight: 400;
+  }
+
+  .home-design-surface[data-title-font='sans'] .hero-title,
+  .home-design-surface[data-title-font='sans'] .profile-name {
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+  }
+
   .hero-shell::after {
     content: '';
     position: absolute;
@@ -323,11 +408,61 @@ const cardImages = [
   }
 
   .hero-title {
-    font-size: clamp(3.4rem, 6vw, 5.2rem);
-    line-height: 0.92;
+    font-size: clamp(3.15rem, 6vw, var(--hero-title-size));
+    line-height: 0.94;
     letter-spacing: 0;
-    font-weight: 800;
+    font-weight: 900;
     text-shadow: 0 10px 36px rgba(15, 23, 42, 0.24);
+  }
+
+  .hero-title-rule {
+    width: min(12rem, 58vw);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.55rem, 3.2vw, var(--hero-subtitle-size));
+    line-height: 1.2;
+  }
+
+  .hero-copy {
+    font-size: var(--hero-copy-size);
+  }
+
+  .profile-name {
+    font-size: clamp(2rem, 3vw, calc(var(--hero-title-size) * 0.45));
+    line-height: 1;
+    text-shadow: 0 8px 28px rgba(15, 23, 42, 0.22);
+  }
+
+  .home-design-surface > section + section {
+    padding-top: var(--section-gap);
+  }
+
+  .home-design-surface > section:first-of-type {
+    padding-bottom: calc(var(--section-gap) * 0.55);
+  }
+
+  .design-panel summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .design-range {
+    display: block;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .design-range span {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .design-range input {
+    width: 100%;
+    margin-top: 0.5rem;
+    accent-color: #f97316;
   }
 
   .hero-reveal {
@@ -376,6 +511,43 @@ const cardImages = [
     .hero-shell {
       border-radius: 1.5rem;
     }
+
+  }
+
+  @media (max-width: 768px) {
+    .hero-layout {
+      min-height: auto;
+    }
+
+    .profile-card {
+      max-width: none;
+      padding: 1.25rem;
+    }
+
+    .hero-copy {
+      font-size: 1rem;
+    }
+
+    .design-panel {
+      bottom: 1rem;
+      right: 1rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero-shell {
+      border-radius: 1.15rem;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 18vw, 4.5rem);
+    }
+
+    .hero-subtitle {
+      margin-top: 1.1rem;
+      font-size: 1.35rem;
+    }
+
   }
 </style>
 
@@ -408,4 +580,78 @@ const cardImages = [
   }
 
   runTypewriter();
+
+  const designSurface = document.getElementById('home-design-surface');
+  const fontControl = document.getElementById('font-control');
+  const titleSizeControl = document.getElementById('title-size-control');
+  const subtitleSizeControl = document.getElementById('subtitle-size-control');
+  const ratioControl = document.getElementById('ratio-control');
+  const profileWidthControl = document.getElementById('profile-width-control');
+  const sectionGapControl = document.getElementById('section-gap-control');
+  const promptOutput = document.getElementById('design-prompt-output');
+
+  const designState = {
+    font: 'serif',
+    titleSize: 82,
+    subtitleSize: 30,
+    ratio: 58,
+    profileWidth: 300,
+    sectionGap: 32,
+  };
+
+  const fontLabels = {
+    serif: '典雅宋体',
+    brush: '书写艺术字',
+    playful: '圆润艺术字',
+    sans: '现代黑体',
+  };
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(value);
+  }
+
+  function applyDesignState() {
+    if (!(designSurface instanceof HTMLElement)) return;
+
+    designSurface.dataset.titleFont = designState.font;
+    designSurface.style.setProperty('--hero-title-size', `${designState.titleSize}px`);
+    designSurface.style.setProperty('--hero-subtitle-size', `${designState.subtitleSize}px`);
+    designSurface.style.setProperty('--profile-width', `${designState.profileWidth}px`);
+    designSurface.style.setProperty('--section-gap', `${designState.sectionGap}px`);
+    designSurface.style.setProperty('--hero-copy-fr', `${(designState.ratio / 50).toFixed(2)}fr`);
+
+    setText('title-size-value', designState.titleSize);
+    setText('subtitle-size-value', designState.subtitleSize);
+    setText('ratio-value', designState.ratio);
+    setText('profile-ratio-value', designState.profileWidth);
+    setText('profile-width-value', designState.profileWidth);
+    setText('section-gap-value', designState.sectionGap);
+
+    if (promptOutput instanceof HTMLTextAreaElement) {
+      promptOutput.value = `请按这个首页视觉参数修改博客：标题字体使用${fontLabels[designState.font] || designState.font}，hero 主标题约 ${designState.titleSize}px，副标题约 ${designState.subtitleSize}px；桌面端左侧内容占比约 ${designState.ratio}%，右侧头像卡宽度约 ${designState.profileWidth}px；首页上下区块间距约 ${designState.sectionGap}px。保持当前已删除的英文标语和多余装饰符号不要恢复，同时继续保证移动端单列排版、按钮不换行溢出、头像卡不挤压正文。`;
+    }
+  }
+
+  function bindControl(control, key) {
+    if (!(control instanceof HTMLInputElement)) return;
+    control.addEventListener('input', () => {
+      designState[key] = Number(control.value);
+      applyDesignState();
+    });
+  }
+
+  if (fontControl instanceof HTMLSelectElement) {
+    fontControl.addEventListener('change', () => {
+      designState.font = fontControl.value;
+      applyDesignState();
+    });
+  }
+
+  bindControl(titleSizeControl, 'titleSize');
+  bindControl(subtitleSizeControl, 'subtitleSize');
+  bindControl(ratioControl, 'ratio');
+  bindControl(profileWidthControl, 'profileWidth');
+  bindControl(sectionGapControl, 'sectionGap');
+  applyDesignState();
 </script>
