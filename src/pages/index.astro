@@ -53,7 +53,7 @@ const cardImages = [
 <BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
   <Header />
 
-  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush">
+  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush" data-copy-font="mono">
     <section class="mx-auto max-w-[1500px] px-4 pb-7 pt-4 sm:px-6 sm:pt-6">
       <div class="hero-shell relative overflow-hidden rounded-[1.6rem] border border-white/60 shadow-[0_22px_56px_rgba(15,23,42,0.14)]">
         <img
@@ -75,7 +75,7 @@ const cardImages = [
               深空中的丁火，寒夜里的极光
             </p>
 
-            <p class="hero-copy hero-reveal hero-delay-2 mt-5 max-w-2xl leading-relaxed text-slate-100/92">
+            <p class="hero-copy hero-reveal hero-delay-2 mt-5 max-w-2xl leading-relaxed">
               <span
                 id="hero-typed"
                 class="typewriter-copy"
@@ -292,6 +292,47 @@ const cardImages = [
         </div>
       </section>
     </section>
+
+    <aside class="copy-design-panel" aria-label="简介文字调节面板">
+      <div class="copy-design-panel__header">
+        <div>
+          <p class="copy-design-panel__eyebrow">Hero Copy</p>
+          <h2>简介文字调节</h2>
+        </div>
+      </div>
+
+      <label class="copy-design-field">
+        <span>字体风格</span>
+        <select id="copy-font-control">
+          <option value="mono">代码感等宽</option>
+          <option value="serif">宋体书卷</option>
+          <option value="brush">手写行草</option>
+          <option value="wild">飘逸草书</option>
+          <option value="playful">奇趣圆笔</option>
+          <option value="techno">科技标题</option>
+        </select>
+      </label>
+
+      <label class="copy-design-field">
+        <span>文字大小 <b id="copy-size-value">18px</b></span>
+        <input id="copy-size-control" type="range" min="14" max="32" value="18" />
+      </label>
+
+      <label class="copy-design-field">
+        <span>文字颜色</span>
+        <input id="copy-color-control" type="color" value="#e5edf8" />
+      </label>
+
+      <label class="copy-design-field">
+        <span>字距 <b id="copy-spacing-value">0.02em</b></span>
+        <input id="copy-spacing-control" type="range" min="0" max="12" value="2" />
+      </label>
+
+      <label class="copy-design-field">
+        <span>实时生成 Prompt</span>
+        <textarea id="copy-prompt-output" rows="4" readonly></textarea>
+      </label>
+    </aside>
   </main>
 
   <Footer />
@@ -302,6 +343,8 @@ const cardImages = [
     --hero-title-size: 68px;
     --hero-subtitle-size: 25px;
     --hero-copy-size: 18px;
+    --hero-copy-color: rgba(229, 237, 248, 0.92);
+    --hero-copy-letter-spacing: 0.02em;
     --profile-width: 291px;
     --section-gap: 18px;
     --hero-copy-fr: 1.1fr;
@@ -374,6 +417,7 @@ const cardImages = [
 
   .hero-copy {
     font-size: var(--hero-copy-size);
+    color: var(--hero-copy-color);
   }
 
   .profile-name {
@@ -411,8 +455,135 @@ const cardImages = [
   .typewriter-copy {
     display: inline;
     min-height: 1.75rem;
+    letter-spacing: var(--hero-copy-letter-spacing);
+  }
+
+  .home-design-surface[data-copy-font='mono'] .typewriter-copy {
     font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
-    letter-spacing: 0.02em;
+  }
+
+  .home-design-surface[data-copy-font='serif'] .typewriter-copy {
+    font-family: 'Noto Serif SC', 'Noto Sans SC', serif;
+    font-weight: 700;
+  }
+
+  .home-design-surface[data-copy-font='brush'] .typewriter-copy {
+    font-family: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+    font-size: 1.18em;
+  }
+
+  .home-design-surface[data-copy-font='wild'] .typewriter-copy {
+    font-family: 'Liu Jian Mao Cao', 'Zhi Mang Xing', cursive;
+    font-size: 1.32em;
+  }
+
+  .home-design-surface[data-copy-font='playful'] .typewriter-copy {
+    font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  }
+
+  .home-design-surface[data-copy-font='techno'] .typewriter-copy {
+    font-family: 'ZCOOL QingKe HuangYou', 'JetBrains Mono', sans-serif;
+    text-transform: uppercase;
+  }
+
+  .copy-design-panel {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 60;
+    width: min(22rem, calc(100vw - 2rem));
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
+    backdrop-filter: blur(18px);
+    padding: 1rem;
+  }
+
+  .copy-design-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .copy-design-panel__eyebrow {
+    margin: 0 0 0.18rem;
+    color: #f97316;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .copy-design-panel h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .copy-design-field {
+    display: grid;
+    gap: 0.42rem;
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .copy-design-field + .copy-design-field {
+    margin-top: 0.78rem;
+  }
+
+  .copy-design-field span {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .copy-design-field b {
+    color: #f97316;
+    font-weight: 800;
+  }
+
+  .copy-design-field select,
+  .copy-design-field textarea {
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.85rem;
+    background: #fff;
+    color: #0f172a;
+    font: inherit;
+    outline: none;
+  }
+
+  .copy-design-field select {
+    height: 2.45rem;
+    padding: 0 0.8rem;
+  }
+
+  .copy-design-field textarea {
+    min-height: 5.6rem;
+    resize: vertical;
+    padding: 0.7rem 0.8rem;
+    font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
+    font-size: 0.75rem;
+    line-height: 1.55;
+  }
+
+  .copy-design-field input[type='range'] {
+    width: 100%;
+    accent-color: #f97316;
+  }
+
+  .copy-design-field input[type='color'] {
+    width: 100%;
+    height: 2.45rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.85rem;
+    background: #fff;
+    padding: 0.25rem;
   }
 
   .typewriter-caret {
@@ -451,6 +622,15 @@ const cardImages = [
 
     .hero-copy {
       font-size: 1rem;
+    }
+
+    .copy-design-panel {
+      right: 0.75rem;
+      bottom: 0.75rem;
+      width: calc(100vw - 1.5rem);
+      max-height: 46vh;
+      overflow: auto;
+      border-radius: 1rem;
     }
 
   }
@@ -501,4 +681,53 @@ const cardImages = [
   }
 
   runTypewriter();
+
+  const designSurface = document.getElementById('home-design-surface');
+  const fontControl = document.getElementById('copy-font-control');
+  const sizeControl = document.getElementById('copy-size-control');
+  const colorControl = document.getElementById('copy-color-control');
+  const spacingControl = document.getElementById('copy-spacing-control');
+  const sizeValue = document.getElementById('copy-size-value');
+  const spacingValue = document.getElementById('copy-spacing-value');
+  const promptOutput = document.getElementById('copy-prompt-output');
+
+  const fontLabels = {
+    mono: '代码感等宽',
+    serif: '宋体书卷',
+    brush: '手写行草',
+    wild: '飘逸草书',
+    playful: '奇趣圆笔',
+    techno: '科技标题',
+  };
+
+  function updateCopyDesign() {
+    if (!(designSurface instanceof HTMLElement)) return;
+    if (!(fontControl instanceof HTMLSelectElement)) return;
+    if (!(sizeControl instanceof HTMLInputElement)) return;
+    if (!(colorControl instanceof HTMLInputElement)) return;
+    if (!(spacingControl instanceof HTMLInputElement)) return;
+
+    const size = `${sizeControl.value}px`;
+    const spacing = `${(Number(spacingControl.value) / 100).toFixed(2)}em`;
+    const font = fontControl.value;
+    const color = colorControl.value;
+
+    designSurface.dataset.copyFont = font;
+    designSurface.style.setProperty('--hero-copy-size', size);
+    designSurface.style.setProperty('--hero-copy-color', color);
+    designSurface.style.setProperty('--hero-copy-letter-spacing', spacing);
+
+    if (sizeValue) sizeValue.textContent = size;
+    if (spacingValue) spacingValue.textContent = spacing;
+    if (promptOutput instanceof HTMLTextAreaElement) {
+      promptOutput.value = `请把首页 hero 简介文字调整为：字体使用${fontLabels[font] ?? font}风格，字号 ${size}，颜色 ${color}，字距 ${spacing}。保持移动端单列排版，按钮不换行溢出，头像卡不挤压正文，并且不要恢复英文标语和多余装饰符号。`;
+    }
+  }
+
+  [fontControl, sizeControl, colorControl, spacingControl].forEach((control) => {
+    control?.addEventListener('input', updateCopyDesign);
+    control?.addEventListener('change', updateCopyDesign);
+  });
+
+  updateCopyDesign();
 </script>

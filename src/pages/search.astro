@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LocalIcon from '../components/LocalIcon.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="搜索" description="搜索晨熠博客文章">
+  <Header />
+
+  <main class="flex-1">
+    <section class="mx-auto max-w-[1500px] px-6 pb-8 pt-6">
+      <div class="relative overflow-hidden rounded-[2rem] border border-white/70 bg-[linear-gradient(135deg,#ffffff_0%,#fff8ed_48%,#eef8ff_100%)] px-6 py-8 shadow-[0_28px_70px_rgba(15,23,42,0.10)] sm:px-8 sm:py-10">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.13),transparent_28%),radial-gradient(circle_at_82%_18%,rgba(14,165,233,0.11),transparent_22%)]"></div>
+        <div class="relative max-w-4xl">
+          <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 text-sm font-medium tracking-[0.2em] text-orange-500">
+            <LocalIcon name="search" class="h-4 w-4" />
+            SEARCH
+          </p>
+          <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">搜索文章</h1>
+          <p class="mt-4 text-lg leading-8 text-slate-600">
+            输入标题、分类、标签或正文片段，快速找到想看的记录。
+          </p>
+
+          <label class="mt-7 flex min-h-14 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 shadow-[0_16px_36px_rgba(15,23,42,0.08)] focus-within:border-orange-300 focus-within:ring-4 focus-within:ring-orange-100">
+            <LocalIcon name="search" class="h-5 w-5 shrink-0 text-slate-400" />
+            <input
+              id="search-input"
+              type="search"
+              placeholder="搜索标题、标签、分类或正文..."
+              class="min-w-0 flex-1 bg-transparent text-base text-slate-900 outline-none placeholder:text-slate-400"
+              autocomplete="off"
+            />
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-[1500px] px-6 pb-16">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <h2 class="text-2xl font-semibold text-slate-900">
+          搜索结果
+        </h2>
+        <p id="search-count" class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-500 shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
+          共 {posts.length} 篇
+        </p>
+      </div>
+
+      <div id="search-results" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {posts.map((post) => {
+          const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          });
+          const searchableText = [
+            post.data.title,
+            post.data.description,
+            post.data.category,
+            ...post.data.tags,
+            post.body,
+          ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+          return (
+            <a
+              href={`/blog/${post.id}`}
+              data-search-card
+              data-search={searchableText}
+              class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_14px_36px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(15,23,42,0.10)]"
+            >
+              <div class="mb-3 flex flex-wrap gap-2">
+                <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
+                  {post.data.category}
+                </span>
+                {post.data.tags.slice(0, 2).map((tag) => (
+                  <span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-600">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h3 class="text-xl font-semibold leading-snug text-slate-900 transition-colors group-hover:text-orange-500">
+                {post.data.title}
+              </h3>
+              {post.data.description && (
+                <p class="mt-2 line-clamp-3 text-sm leading-6 text-slate-500">
+                  {post.data.description}
+                </p>
+              )}
+              <p class="mt-4 inline-flex items-center gap-1.5 text-xs text-slate-400">
+                <LocalIcon name="calendar-days" class="h-4 w-4" />
+                {formattedDate}
+              </p>
+            </a>
+          );
+        })}
+      </div>
+
+      <p id="search-empty" class="hidden rounded-[1.6rem] border border-slate-200 bg-white px-6 py-16 text-center text-slate-500 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
+        没有匹配的文章，换个关键词试试。
+      </p>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  const input = document.getElementById('search-input');
+  const count = document.getElementById('search-count');
+  const empty = document.getElementById('search-empty');
+  const cards = Array.from(document.querySelectorAll('[data-search-card]'));
+
+  function normalize(value) {
+    return value.trim().toLowerCase();
+  }
+
+  function updateSearch() {
+    if (!(input instanceof HTMLInputElement)) return;
+    const query = normalize(input.value);
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      if (!(card instanceof HTMLElement)) return;
+      const text = card.dataset.search ?? '';
+      const visible = !query || text.includes(query);
+      card.classList.toggle('hidden', !visible);
+      if (visible) visibleCount += 1;
+    });
+
+    if (count) count.textContent = query ? `找到 ${visibleCount} 篇` : `共 ${cards.length} 篇`;
+    empty?.classList.toggle('hidden', visibleCount !== 0);
+  }
+
+  if (input instanceof HTMLInputElement) {
+    const params = new URLSearchParams(window.location.search);
+    const initialQuery = params.get('q');
+    if (initialQuery) input.value = initialQuery;
+    input.addEventListener('input', updateSearch);
+    updateSearch();
+  }
+</script>
