@@ -2,9 +2,9 @@
 title: 在vibe coding中使用html的利与弊
 description: 基于A社工程师Thariq文章所获得的收获
 pubDate: '2026-05-10'
-category: 未分类
+category: AI
 tags: []
-updatedDate: '2026-05-10'
+updatedDate: '2026-05-11'
 ---
 在vibe coding中，AI 经常会用又长又臭的MD文档输出计划、总结、PR 说明和执行报告。MD的确简洁、省 token、适合版本管理，但它的问题是：它更适合生成文本，不一定适合让人审阅复杂决策。
 
@@ -20,8 +20,6 @@ html往往比md能传达更丰富的信息，虽然AI已经强到可以使用ASC
 2. 流程图，这个应该不用说了
 3. 可以实时对界面调整参数并生成提示词，《乔布斯传》中有一位工程师就写过一个调整参数的程序让乔布斯可以调整到自己喜欢的那一样式
 4. 比起markdown，更容易让人看得下去
-
-<p>&nbsp;</p>
 
 ## 二.使用html表达的一些缺点
 
