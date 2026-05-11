@@ -53,7 +53,7 @@ const cardImages = [
 <BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
   <Header />
 
-  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush" data-copy-font="mono">
+  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush" data-copy-font="brush">
     <section class="mx-auto max-w-[1500px] px-4 pb-7 pt-4 sm:px-6 sm:pt-6">
       <div class="hero-shell relative overflow-hidden rounded-[1.6rem] border border-white/60 shadow-[0_22px_56px_rgba(15,23,42,0.14)]">
         <img
@@ -306,7 +306,7 @@ const cardImages = [
         <select id="copy-font-control">
           <option value="mono">代码感等宽</option>
           <option value="serif">宋体书卷</option>
-          <option value="brush">手写行草</option>
+          <option value="brush" selected>手写行草</option>
           <option value="wild">飘逸草书</option>
           <option value="playful">奇趣圆笔</option>
           <option value="techno">科技标题</option>
@@ -314,18 +314,18 @@ const cardImages = [
       </label>
 
       <label class="copy-design-field">
-        <span>文字大小 <b id="copy-size-value">18px</b></span>
-        <input id="copy-size-control" type="range" min="14" max="32" value="18" />
+        <span>文字大小 <b id="copy-size-value">15px</b></span>
+        <input id="copy-size-control" type="range" min="14" max="32" value="15" />
       </label>
 
       <label class="copy-design-field">
         <span>文字颜色</span>
-        <input id="copy-color-control" type="color" value="#e5edf8" />
+        <input id="copy-color-control" type="color" value="#d2e826" />
       </label>
 
       <label class="copy-design-field">
-        <span>字距 <b id="copy-spacing-value">0.02em</b></span>
-        <input id="copy-spacing-control" type="range" min="0" max="12" value="2" />
+        <span>字距 <b id="copy-spacing-value">0.05em</b></span>
+        <input id="copy-spacing-control" type="range" min="0" max="12" value="5" />
       </label>
 
       <label class="copy-design-field">
@@ -342,9 +342,9 @@ const cardImages = [
   .home-design-surface {
     --hero-title-size: 68px;
     --hero-subtitle-size: 25px;
-    --hero-copy-size: 18px;
-    --hero-copy-color: rgba(229, 237, 248, 0.92);
-    --hero-copy-letter-spacing: 0.02em;
+    --hero-copy-size: 15px;
+    --hero-copy-color: #d2e826;
+    --hero-copy-letter-spacing: 0.05em;
     --profile-width: 291px;
     --section-gap: 18px;
     --hero-copy-fr: 1.1fr;
