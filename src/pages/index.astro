@@ -53,7 +53,7 @@ const cardImages = [
 <BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
   <Header />
 
-  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush" data-copy-font="brush">
+  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush" data-copy-font="brush" data-card-font="sans">
     <section class="mx-auto max-w-[1500px] px-4 pb-7 pt-4 sm:px-6 sm:pt-6">
       <div class="hero-shell relative overflow-hidden rounded-[1.6rem] border border-white/60 shadow-[0_22px_56px_rgba(15,23,42,0.14)]">
         <img
@@ -164,7 +164,7 @@ const cardImages = [
             </a>
           </div>
 
-          <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div class="article-card-grid">
             {featuredPosts.map((post, index) => {
               const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
                 year: 'numeric',
@@ -177,9 +177,9 @@ const cardImages = [
               return (
                 <a
                   href={`/blog/${post.id}`}
-                  class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_14px_36px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(15,23,42,0.10)]"
+                  class="article-card group"
                 >
-                  <div class="relative h-36 overflow-hidden">
+                  <div class="article-card-media relative overflow-hidden">
                     <img
                       src={cover}
                       alt={post.data.title}
@@ -188,7 +188,7 @@ const cardImages = [
                     <div class="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(15,23,42,0.55)_100%)]"></div>
                   </div>
 
-                  <div class="px-5 pb-5 pt-4">
+                  <div class="article-card-body">
                     <div class="mb-2 flex flex-wrap gap-2">
                       <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-600">
                         {post.data.category}
@@ -200,14 +200,14 @@ const cardImages = [
                       )}
                     </div>
 
-                    <h3 class="text-xl font-semibold leading-snug text-slate-900">
+                    <h3 class="article-card-title">
                       {post.data.title}
                     </h3>
-                    <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">
+                    <p class="article-card-desc mt-2 line-clamp-2 leading-6">
                       {post.data.description || '继续向更深处走，记录路上的思考、技术与光。'}
                     </p>
 
-                    <div class="mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-400">
+                    <div class="article-card-meta mt-4 flex flex-wrap items-center gap-4 text-xs text-slate-400">
                       <span class="inline-flex items-center gap-1.5">
                         <LocalIcon name="calendar-days" class="h-4 w-4" />
                         {formattedDate}
@@ -293,39 +293,58 @@ const cardImages = [
       </section>
     </section>
 
-    <aside class="copy-design-panel" aria-label="简介文字调节面板">
+    <aside class="copy-design-panel" aria-label="文章卡片调节面板">
       <div class="copy-design-panel__header">
         <div>
-          <p class="copy-design-panel__eyebrow">Hero Copy</p>
-          <h2>简介文字调节</h2>
+          <p class="copy-design-panel__eyebrow">Article Cards</p>
+          <h2>文章卡片调节</h2>
         </div>
       </div>
 
       <label class="copy-design-field">
-        <span>字体风格</span>
-        <select id="copy-font-control">
-          <option value="mono">代码感等宽</option>
-          <option value="serif">宋体书卷</option>
-          <option value="brush" selected>手写行草</option>
-          <option value="wild">飘逸草书</option>
+        <span>文字字体</span>
+        <select id="card-font-control">
+          <option value="sans" selected>清爽黑体</option>
+          <option value="serif">书卷宋体</option>
+          <option value="brush">手写行草</option>
           <option value="playful">奇趣圆笔</option>
-          <option value="techno">科技标题</option>
+          <option value="mono">代码等宽</option>
         </select>
       </label>
 
       <label class="copy-design-field">
-        <span>文字大小 <b id="copy-size-value">15px</b></span>
-        <input id="copy-size-control" type="range" min="14" max="32" value="15" />
+        <span>标题字号 <b id="card-title-size-value">20px</b></span>
+        <input id="card-title-size-control" type="range" min="16" max="30" value="20" />
       </label>
 
       <label class="copy-design-field">
-        <span>文字颜色</span>
-        <input id="copy-color-control" type="color" value="#d2e826" />
+        <span>摘要字号 <b id="card-desc-size-value">14px</b></span>
+        <input id="card-desc-size-control" type="range" min="12" max="22" value="14" />
       </label>
 
       <label class="copy-design-field">
-        <span>字距 <b id="copy-spacing-value">0.05em</b></span>
-        <input id="copy-spacing-control" type="range" min="0" max="12" value="5" />
+        <span>文字字距 <b id="card-spacing-value">0.00em</b></span>
+        <input id="card-spacing-control" type="range" min="0" max="10" value="0" />
+      </label>
+
+      <label class="copy-design-field">
+        <span>卡片间距 <b id="card-gap-value">20px</b></span>
+        <input id="card-gap-control" type="range" min="12" max="52" value="20" />
+      </label>
+
+      <label class="copy-design-field">
+        <span>卡片宽度 <b id="card-width-value">280px</b></span>
+        <input id="card-width-control" type="range" min="240" max="420" value="280" />
+      </label>
+
+      <label class="copy-design-field">
+        <span>卡片高度 <b id="card-height-value">340px</b></span>
+        <input id="card-height-control" type="range" min="280" max="520" value="340" />
+      </label>
+
+      <label class="copy-design-field">
+        <span>封面高度 <b id="card-image-height-value">144px</b></span>
+        <input id="card-image-height-control" type="range" min="110" max="240" value="144" />
       </label>
 
       <label class="copy-design-field">
@@ -348,6 +367,13 @@ const cardImages = [
     --profile-width: 291px;
     --section-gap: 18px;
     --hero-copy-fr: 1.1fr;
+    --article-card-gap: 20px;
+    --article-card-width: 280px;
+    --article-card-min-height: 340px;
+    --article-card-image-height: 144px;
+    --article-title-size: 20px;
+    --article-desc-size: 14px;
+    --article-card-letter-spacing: 0em;
   }
 
   .hero-layout {
@@ -484,6 +510,89 @@ const cardImages = [
   .home-design-surface[data-copy-font='techno'] .typewriter-copy {
     font-family: 'ZCOOL QingKe HuangYou', 'JetBrains Mono', sans-serif;
     text-transform: uppercase;
+  }
+
+  .article-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--article-card-width)), 1fr));
+    gap: var(--article-card-gap);
+  }
+
+  .article-card {
+    display: flex;
+    min-height: var(--article-card-min-height);
+    overflow: hidden;
+    flex-direction: column;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.07);
+    letter-spacing: var(--article-card-letter-spacing);
+    transition:
+      transform 300ms ease,
+      box-shadow 300ms ease;
+  }
+
+  .article-card:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 22px 48px rgba(15, 23, 42, 0.1);
+  }
+
+  .article-card-media {
+    height: var(--article-card-image-height);
+    flex: 0 0 var(--article-card-image-height);
+  }
+
+  .article-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .article-card-title {
+    color: #0f172a;
+    font-size: var(--article-title-size);
+    font-weight: 700;
+    line-height: 1.32;
+    overflow-wrap: anywhere;
+  }
+
+  .article-card-desc {
+    color: #64748b;
+    font-size: var(--article-desc-size);
+    overflow-wrap: anywhere;
+  }
+
+  .article-card-meta {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+
+  .home-design-surface[data-card-font='sans'] .article-card {
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+  }
+
+  .home-design-surface[data-card-font='serif'] .article-card {
+    font-family: 'Noto Serif SC', 'Noto Sans SC', serif;
+  }
+
+  .home-design-surface[data-card-font='brush'] .article-card-title {
+    font-family: 'Ma Shan Zheng', 'Noto Serif SC', cursive;
+    font-weight: 400;
+  }
+
+  .home-design-surface[data-card-font='brush'] .article-card-desc,
+  .home-design-surface[data-card-font='brush'] .article-card-meta {
+    font-family: 'Noto Serif SC', 'Noto Sans SC', serif;
+  }
+
+  .home-design-surface[data-card-font='playful'] .article-card {
+    font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  }
+
+  .home-design-surface[data-card-font='mono'] .article-card {
+    font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
   }
 
   .copy-design-panel {
@@ -628,9 +737,13 @@ const cardImages = [
       right: 0.75rem;
       bottom: 0.75rem;
       width: calc(100vw - 1.5rem);
-      max-height: 46vh;
+      max-height: 56vh;
       overflow: auto;
       border-radius: 1rem;
+    }
+
+    .article-card-grid {
+      grid-template-columns: 1fr;
     }
 
   }
@@ -683,51 +796,90 @@ const cardImages = [
   runTypewriter();
 
   const designSurface = document.getElementById('home-design-surface');
-  const fontControl = document.getElementById('copy-font-control');
-  const sizeControl = document.getElementById('copy-size-control');
-  const colorControl = document.getElementById('copy-color-control');
-  const spacingControl = document.getElementById('copy-spacing-control');
-  const sizeValue = document.getElementById('copy-size-value');
-  const spacingValue = document.getElementById('copy-spacing-value');
+  const cardFontControl = document.getElementById('card-font-control');
+  const cardTitleSizeControl = document.getElementById('card-title-size-control');
+  const cardDescSizeControl = document.getElementById('card-desc-size-control');
+  const cardSpacingControl = document.getElementById('card-spacing-control');
+  const cardGapControl = document.getElementById('card-gap-control');
+  const cardWidthControl = document.getElementById('card-width-control');
+  const cardHeightControl = document.getElementById('card-height-control');
+  const cardImageHeightControl = document.getElementById('card-image-height-control');
+  const cardTitleSizeValue = document.getElementById('card-title-size-value');
+  const cardDescSizeValue = document.getElementById('card-desc-size-value');
+  const cardSpacingValue = document.getElementById('card-spacing-value');
+  const cardGapValue = document.getElementById('card-gap-value');
+  const cardWidthValue = document.getElementById('card-width-value');
+  const cardHeightValue = document.getElementById('card-height-value');
+  const cardImageHeightValue = document.getElementById('card-image-height-value');
   const promptOutput = document.getElementById('copy-prompt-output');
 
-  const fontLabels = {
-    mono: '代码感等宽',
+  const cardFontLabels = {
+    sans: '清爽黑体',
     serif: '宋体书卷',
     brush: '手写行草',
-    wild: '飘逸草书',
     playful: '奇趣圆笔',
-    techno: '科技标题',
+    mono: '代码等宽',
   };
 
-  function updateCopyDesign() {
+  function setText(element, value) {
+    if (element) element.textContent = value;
+  }
+
+  function updateCardDesign() {
     if (!(designSurface instanceof HTMLElement)) return;
-    if (!(fontControl instanceof HTMLSelectElement)) return;
-    if (!(sizeControl instanceof HTMLInputElement)) return;
-    if (!(colorControl instanceof HTMLInputElement)) return;
-    if (!(spacingControl instanceof HTMLInputElement)) return;
+    if (!(cardFontControl instanceof HTMLSelectElement)) return;
+    if (!(cardTitleSizeControl instanceof HTMLInputElement)) return;
+    if (!(cardDescSizeControl instanceof HTMLInputElement)) return;
+    if (!(cardSpacingControl instanceof HTMLInputElement)) return;
+    if (!(cardGapControl instanceof HTMLInputElement)) return;
+    if (!(cardWidthControl instanceof HTMLInputElement)) return;
+    if (!(cardHeightControl instanceof HTMLInputElement)) return;
+    if (!(cardImageHeightControl instanceof HTMLInputElement)) return;
 
-    const size = `${sizeControl.value}px`;
-    const spacing = `${(Number(spacingControl.value) / 100).toFixed(2)}em`;
-    const font = fontControl.value;
-    const color = colorControl.value;
+    const font = cardFontControl.value;
+    const titleSize = `${cardTitleSizeControl.value}px`;
+    const descSize = `${cardDescSizeControl.value}px`;
+    const spacing = `${(Number(cardSpacingControl.value) / 100).toFixed(2)}em`;
+    const gap = `${cardGapControl.value}px`;
+    const width = `${cardWidthControl.value}px`;
+    const height = `${cardHeightControl.value}px`;
+    const imageHeight = `${cardImageHeightControl.value}px`;
 
-    designSurface.dataset.copyFont = font;
-    designSurface.style.setProperty('--hero-copy-size', size);
-    designSurface.style.setProperty('--hero-copy-color', color);
-    designSurface.style.setProperty('--hero-copy-letter-spacing', spacing);
+    designSurface.dataset.cardFont = font;
+    designSurface.style.setProperty('--article-title-size', titleSize);
+    designSurface.style.setProperty('--article-desc-size', descSize);
+    designSurface.style.setProperty('--article-card-letter-spacing', spacing);
+    designSurface.style.setProperty('--article-card-gap', gap);
+    designSurface.style.setProperty('--article-card-width', width);
+    designSurface.style.setProperty('--article-card-min-height', height);
+    designSurface.style.setProperty('--article-card-image-height', imageHeight);
 
-    if (sizeValue) sizeValue.textContent = size;
-    if (spacingValue) spacingValue.textContent = spacing;
+    setText(cardTitleSizeValue, titleSize);
+    setText(cardDescSizeValue, descSize);
+    setText(cardSpacingValue, spacing);
+    setText(cardGapValue, gap);
+    setText(cardWidthValue, width);
+    setText(cardHeightValue, height);
+    setText(cardImageHeightValue, imageHeight);
+
     if (promptOutput instanceof HTMLTextAreaElement) {
-      promptOutput.value = `请把首页 hero 简介文字调整为：字体使用${fontLabels[font] ?? font}风格，字号 ${size}，颜色 ${color}，字距 ${spacing}。保持移动端单列排版，按钮不换行溢出，头像卡不挤压正文，并且不要恢复英文标语和多余装饰符号。`;
+      promptOutput.value = `请把首页最近文章卡片调整为：卡片文字使用${cardFontLabels[font] ?? font}风格，标题字号 ${titleSize}，摘要字号 ${descSize}，文字字距 ${spacing}，卡片间距 ${gap}，卡片宽度约 ${width}，卡片高度约 ${height}，封面高度 ${imageHeight}。保持移动端单列排版，按钮不换行溢出，头像卡不挤压正文，并且不要恢复英文标语和多余装饰符号。`;
     }
   }
 
-  [fontControl, sizeControl, colorControl, spacingControl].forEach((control) => {
-    control?.addEventListener('input', updateCopyDesign);
-    control?.addEventListener('change', updateCopyDesign);
+  [
+    cardFontControl,
+    cardTitleSizeControl,
+    cardDescSizeControl,
+    cardSpacingControl,
+    cardGapControl,
+    cardWidthControl,
+    cardHeightControl,
+    cardImageHeightControl,
+  ].forEach((control) => {
+    control?.addEventListener('input', updateCardDesign);
+    control?.addEventListener('change', updateCardDesign);
   });
 
-  updateCopyDesign();
+  updateCardDesign();
 </script>
