@@ -53,7 +53,7 @@ const cardImages = [
 <BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
   <Header />
 
-  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush" data-copy-font="brush" data-card-font="sans">
+  <main id="home-design-surface" class="home-design-surface flex-1" data-title-font="brush" data-copy-font="brush" data-card-font="serif">
     <section class="mx-auto max-w-[1500px] px-4 pb-7 pt-4 sm:px-6 sm:pt-6">
       <div class="hero-shell relative overflow-hidden rounded-[1.6rem] border border-white/60 shadow-[0_22px_56px_rgba(15,23,42,0.14)]">
         <img
@@ -304,8 +304,8 @@ const cardImages = [
       <label class="copy-design-field">
         <span>文字字体</span>
         <select id="card-font-control">
-          <option value="sans" selected>清爽黑体</option>
-          <option value="serif">书卷宋体</option>
+          <option value="sans">清爽黑体</option>
+          <option value="serif" selected>书卷宋体</option>
           <option value="brush">手写行草</option>
           <option value="playful">奇趣圆笔</option>
           <option value="mono">代码等宽</option>
@@ -313,38 +313,38 @@ const cardImages = [
       </label>
 
       <label class="copy-design-field">
-        <span>标题字号 <b id="card-title-size-value">20px</b></span>
-        <input id="card-title-size-control" type="range" min="16" max="30" value="20" />
+        <span>标题字号 <b id="card-title-size-value">19px</b></span>
+        <input id="card-title-size-control" type="range" min="16" max="30" value="19" />
       </label>
 
       <label class="copy-design-field">
-        <span>摘要字号 <b id="card-desc-size-value">14px</b></span>
-        <input id="card-desc-size-control" type="range" min="12" max="22" value="14" />
+        <span>摘要字号 <b id="card-desc-size-value">12px</b></span>
+        <input id="card-desc-size-control" type="range" min="12" max="22" value="12" />
       </label>
 
       <label class="copy-design-field">
-        <span>文字字距 <b id="card-spacing-value">0.00em</b></span>
-        <input id="card-spacing-control" type="range" min="0" max="10" value="0" />
+        <span>文字字距 <b id="card-spacing-value">0.01em</b></span>
+        <input id="card-spacing-control" type="range" min="0" max="10" value="1" />
       </label>
 
       <label class="copy-design-field">
-        <span>卡片间距 <b id="card-gap-value">20px</b></span>
-        <input id="card-gap-control" type="range" min="12" max="52" value="20" />
+        <span>卡片间距 <b id="card-gap-value">14px</b></span>
+        <input id="card-gap-control" type="range" min="12" max="52" value="14" />
       </label>
 
       <label class="copy-design-field">
-        <span>卡片宽度 <b id="card-width-value">280px</b></span>
-        <input id="card-width-control" type="range" min="240" max="420" value="280" />
+        <span>卡片宽度 <b id="card-width-value">250px</b></span>
+        <input id="card-width-control" type="range" min="240" max="420" value="250" />
       </label>
 
       <label class="copy-design-field">
-        <span>卡片高度 <b id="card-height-value">340px</b></span>
-        <input id="card-height-control" type="range" min="280" max="520" value="340" />
+        <span>卡片高度 <b id="card-height-value">284px</b></span>
+        <input id="card-height-control" type="range" min="280" max="520" value="284" />
       </label>
 
       <label class="copy-design-field">
-        <span>封面高度 <b id="card-image-height-value">144px</b></span>
-        <input id="card-image-height-control" type="range" min="110" max="240" value="144" />
+        <span>封面高度 <b id="card-image-height-value">128px</b></span>
+        <input id="card-image-height-control" type="range" min="110" max="240" value="128" />
       </label>
 
       <label class="copy-design-field">
@@ -367,13 +367,13 @@ const cardImages = [
     --profile-width: 291px;
     --section-gap: 18px;
     --hero-copy-fr: 1.1fr;
-    --article-card-gap: 20px;
-    --article-card-width: 280px;
-    --article-card-min-height: 340px;
-    --article-card-image-height: 144px;
-    --article-title-size: 20px;
-    --article-desc-size: 14px;
-    --article-card-letter-spacing: 0em;
+    --article-card-gap: 14px;
+    --article-card-width: 250px;
+    --article-card-min-height: 284px;
+    --article-card-image-height: 128px;
+    --article-title-size: 19px;
+    --article-desc-size: 12px;
+    --article-card-letter-spacing: 0.01em;
   }
 
   .hero-layout {
