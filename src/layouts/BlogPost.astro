@@ -248,6 +248,76 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
     }
   }
 
+  function getCodeLanguage(code) {
+    if (!(code instanceof HTMLElement)) return 'Plain Text';
+
+    const languageClass = Array.from(code.classList).find((className) => className.startsWith('language-'));
+    const language = languageClass?.replace('language-', '').trim();
+
+    if (!language || language === 'text' || language === 'txt' || language === 'plaintext') return 'Plain Text';
+    return language;
+  }
+
+  function enhanceCodeBlocks() {
+    if (!(articleContent instanceof HTMLElement)) return;
+
+    const blocks = articleContent.querySelectorAll('pre');
+    blocks.forEach((pre) => {
+      if (!(pre instanceof HTMLPreElement)) return;
+      if (pre.dataset.enhanced === 'true') return;
+
+      const code = pre.querySelector(':scope > code');
+      if (!(code instanceof HTMLElement)) return;
+
+      const language = getCodeLanguage(code);
+      const isPlainText = language === 'Plain Text';
+      pre.dataset.enhanced = 'true';
+      pre.dataset.language = language;
+      if (isPlainText) pre.classList.add('is-plain-code');
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'code-block-toolbar';
+
+      const label = document.createElement('span');
+      label.className = 'code-block-language';
+      label.textContent = language;
+
+      const copyButton = document.createElement('button');
+      copyButton.className = 'code-copy-button';
+      copyButton.type = 'button';
+      copyButton.setAttribute('aria-label', '复制代码');
+      copyButton.innerHTML = `
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="code-copy-icon">
+          <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span>复制</span>
+      `;
+
+      copyButton.addEventListener('click', async () => {
+        const text = code.textContent || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          copyButton.classList.add('is-copied');
+          copyButton.querySelector('span').textContent = '已复制';
+          window.setTimeout(() => {
+            copyButton.classList.remove('is-copied');
+            copyButton.querySelector('span').textContent = '复制';
+          }, 1600);
+        } catch (err) {
+          console.error('Copy code failed:', err);
+          copyButton.querySelector('span').textContent = '复制失败';
+          window.setTimeout(() => {
+            copyButton.querySelector('span').textContent = '复制';
+          }, 1600);
+        }
+      });
+
+      toolbar.append(label, copyButton);
+      pre.prepend(toolbar);
+    });
+  }
+
   function updateReadingProgress() {
     if (!(articleContent instanceof HTMLElement)) return;
     if (!(progressBar instanceof HTMLElement)) return;
@@ -267,7 +337,7 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
     remainingLabel.textContent = percent >= 96 ? '即将读完' : `预计剩余约 ${remaining} 分钟`;
   }
 
-  renderMermaidBlocks();
+  renderMermaidBlocks().then(enhanceCodeBlocks);
   updateReadingProgress();
   window.addEventListener('scroll', updateReadingProgress, { passive: true });
   window.addEventListener('resize', updateReadingProgress);
@@ -289,40 +359,99 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
     position: relative;
     margin: 1.8rem 0;
     overflow: hidden;
-    border: 1px solid rgba(30, 41, 59, 0.82);
-    border-radius: 1rem;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(251, 146, 60, 0.14), transparent 28%),
-      linear-gradient(135deg, #151a22 0%, #20262e 55%, #111827 100%);
-    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
+    border: 1px solid rgba(226, 223, 216, 0.95);
+    border-radius: 0.9rem;
+    background: #f7f6f3;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
   }
 
-  .article-prose :global(pre::before) {
-    content: '';
-    display: block;
-    height: 2.35rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
-    background:
-      radial-gradient(circle at 1.1rem 50%, #fb7185 0 0.28rem, transparent 0.31rem),
-      radial-gradient(circle at 2.1rem 50%, #fbbf24 0 0.28rem, transparent 0.31rem),
-      radial-gradient(circle at 3.1rem 50%, #34d399 0 0.28rem, transparent 0.31rem),
-      rgba(15, 23, 42, 0.38);
+  .article-prose :global(.code-block-toolbar) {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    min-height: 2.55rem;
+    border-bottom: 1px solid rgba(226, 223, 216, 0.75);
+    background: rgba(250, 250, 249, 0.92);
+    padding: 0.35rem 0.55rem 0.35rem 0.85rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .article-prose :global(.code-block-language) {
+    border-radius: 0.55rem;
+    background: rgba(255, 255, 255, 0.86);
+    color: #78716c;
+    padding: 0.3rem 0.55rem;
+    font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .article-prose :global(.code-copy-button) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid rgba(214, 211, 205, 0.95);
+    border-radius: 0.55rem;
+    background: #ffffff;
+    color: #6b7280;
+    padding: 0.32rem 0.52rem;
+    font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
+    transition:
+      border-color 180ms ease,
+      color 180ms ease,
+      background 180ms ease;
+  }
+
+  .article-prose :global(.code-copy-button:hover) {
+    border-color: rgba(168, 162, 158, 0.95);
+    background: #fafaf9;
+    color: #1f2937;
+  }
+
+  .article-prose :global(.code-copy-button.is-copied) {
+    border-color: rgba(16, 185, 129, 0.35);
+    background: #ecfdf5;
+    color: #047857;
+  }
+
+  .article-prose :global(.code-copy-icon) {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
   }
 
   .article-prose :global(pre code) {
     display: block;
     overflow-x: auto;
-    padding: 1.35rem 1.55rem;
+    padding: 1.05rem 1.25rem 1.2rem;
     background: transparent;
-    color: #f97316;
+    color: #24292f;
     font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.94rem;
-    line-height: 1.9;
+    font-size: 0.92rem;
+    line-height: 1.75;
     tab-size: 2;
   }
 
+  .article-prose :global(pre.is-plain-code code),
+  .article-prose :global(pre.is-plain-code code *) {
+    color: #242424 !important;
+  }
+
   .article-prose :global(pre code .line) {
-    min-height: 1.9em;
+    min-height: 1.75em;
   }
 
   .article-prose :global(pre code::-webkit-scrollbar) {
@@ -331,7 +460,7 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
 
   .article-prose :global(pre code::-webkit-scrollbar-thumb) {
     border-radius: 999px;
-    background: rgba(148, 163, 184, 0.35);
+    background: rgba(168, 162, 158, 0.42);
   }
 
   .article-prose :global(.mermaid-diagram) {
