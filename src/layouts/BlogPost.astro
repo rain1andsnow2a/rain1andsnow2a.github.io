@@ -41,6 +41,7 @@ export interface Props {
   category?: string;
   tags?: string[];
   cover?: string;
+  body?: string;
   headings?: Array<{
     depth: number;
     slug: string;
@@ -48,7 +49,7 @@ export interface Props {
   }>;
 }
 
-const { title, description, pubDate, updatedDate, category = '未分类', tags = [], headings = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, category = '未分类', tags = [], headings = [], body = '' } = Astro.props;
 
 const formattedDate = pubDate
   ? pubDate.toLocaleDateString('zh-CN', {
@@ -66,8 +67,19 @@ const formattedUpdated = updatedDate
     })
   : null;
 
-const wordCount = '静读一篇';
-const readTime = '约 5 分钟';
+const plainBody = body
+  .replace(/```[\s\S]*?```/g, ' ')
+  .replace(/`[^`]*`/g, ' ')
+  .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
+  .replace(/\[[^\]]*\]\([^)]+\)/g, ' ')
+  .replace(/[#>*_\-\[\]()`~|]/g, ' ');
+const chineseCount = (plainBody.match(/[\u4e00-\u9fff]/g) || []).length;
+const wordLikeCount = (plainBody.match(/[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)*/g) || []).length;
+const totalWordCount = chineseCount + wordLikeCount;
+const displayWordCount = totalWordCount.toLocaleString('zh-CN');
+const readMinutes = Math.max(1, Math.ceil(totalWordCount / 420));
+const wordCount = `${displayWordCount} 字`;
+const readTime = `约 ${readMinutes} 分钟`;
 const tocItems = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 ---
 
@@ -99,12 +111,12 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
               ))}
             </div>
 
-            <h1 class="mt-5 max-w-4xl text-5xl font-bold leading-tight tracking-tight text-slate-900">
+            <h1 class="article-title-display mt-5 max-w-4xl text-5xl font-bold leading-tight tracking-tight text-slate-900">
               {title}
             </h1>
 
             {description && (
-              <p class="mt-5 max-w-3xl text-xl leading-9 text-slate-600">
+              <p class="article-description mt-5 max-w-3xl text-xl text-slate-600">
                 {description}
               </p>
             )}
@@ -187,6 +199,12 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
 
       <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.07)]">
         <div class="px-8 pt-7">
+          <div class="mb-4 flex items-center justify-start">
+            <span class="article-word-total inline-flex items-center gap-2 rounded-full border border-slate-200 bg-stone-50 px-4 py-2 text-sm font-medium text-slate-600">
+              <LocalIcon name="file-text" class="h-4 w-4 text-orange-500" />
+              字数总计 {wordCount}
+            </span>
+          </div>
           <div class="h-1.5 rounded-full bg-slate-100">
             <div id="reading-progress-bar" class="h-full w-0 rounded-full bg-orange-400 transition-[width] duration-150"></div>
           </div>
@@ -197,7 +215,7 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
         </div>
         <div
           id="article-content"
-          class="article-prose prose prose-lg max-w-none px-8 py-8 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-p:leading-8 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:before:content-[''] prose-code:after:content-[''] prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
+          class="article-prose prose prose-lg max-w-none px-8 py-8 text-slate-700 prose-headings:text-slate-900 prose-headings:scroll-mt-24 prose-a:text-sky-700 prose-a:no-underline hover:prose-a:text-sky-500 hover:prose-a:underline prose-strong:text-slate-900 prose-code:before:content-[''] prose-code:after:content-[''] prose-blockquote:border-orange-300 prose-blockquote:bg-orange-50/40 prose-blockquote:px-5 prose-blockquote:py-2 prose-blockquote:text-slate-600 prose-hr:border-slate-200 prose-img:rounded-2xl"
         >
           <slot />
         </div>
@@ -344,6 +362,70 @@ const tocItems = headings.filter((heading) => heading.depth === 2 || heading.dep
 </script>
 
 <style>
+  .article-title-display {
+    font-family: 'KaiTi', 'STKaiti', 'Noto Serif SC', 'Songti SC', serif;
+    color: #4a332e;
+    font-weight: 620;
+    letter-spacing: 0;
+  }
+
+  .article-description {
+    font-family: 'FangSong', 'STFangsong', 'Songti SC', 'Noto Serif SC', serif;
+    color: #7e746d;
+    font-weight: 520;
+    line-height: 1.56;
+    letter-spacing: 0;
+  }
+
+  .article-word-total {
+    font-family: 'KaiTi', 'STKaiti', 'Noto Serif SC', 'Songti SC', serif;
+    color: #5f4a42;
+    font-weight: 620;
+    letter-spacing: 0;
+  }
+
+  .article-prose {
+    font-family: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+    font-size: 1.02rem;
+    line-height: 1.62;
+    letter-spacing: 0;
+    color: #4f463f;
+  }
+
+  .article-prose :global(p) {
+    margin-top: 0.82rem;
+    margin-bottom: 0.82rem;
+    line-height: 1.62;
+  }
+
+  .article-prose :global(li) {
+    margin-top: 0.28rem;
+    margin-bottom: 0.28rem;
+    line-height: 1.58;
+  }
+
+  .article-prose :global(ul),
+  .article-prose :global(ol) {
+    margin-top: 0.82rem;
+    margin-bottom: 0.82rem;
+  }
+
+  .article-prose :global(h2),
+  .article-prose :global(h3),
+  .article-prose :global(h4) {
+    font-family: 'KaiTi', 'STKaiti', 'Noto Serif SC', 'Songti SC', serif;
+    color: #4a332e;
+    font-weight: 620;
+    letter-spacing: 0;
+    line-height: 1.22;
+  }
+
+  .article-prose :global(blockquote p) {
+    font-family: 'FangSong', 'STFangsong', 'Songti SC', 'Noto Serif SC', serif;
+    color: #7e746d;
+    line-height: 1.56;
+  }
+
   .article-prose :global(:not(pre) > code) {
     border: 1px solid rgba(251, 146, 60, 0.18);
     border-radius: 0.45rem;
