@@ -67,7 +67,7 @@ const coverImages = [
                 day: 'numeric',
               });
               const readingMinutes = Math.max(4, Math.ceil((post.body?.length || 800) / 420));
-              const cover = coverImages[index % coverImages.length];
+              const cover = post.data.cover || coverImages[index % coverImages.length];
 
               return (
                 <a

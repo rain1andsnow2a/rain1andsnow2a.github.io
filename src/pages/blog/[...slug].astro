@@ -17,7 +17,7 @@ export async function getStaticPaths() {
     params: { slug: post.id },
     props: {
       ...post,
-      cover: detailCoverImages[index % detailCoverImages.length],
+      cover: post.data.cover || detailCoverImages[index % detailCoverImages.length],
     },
   }));
 }

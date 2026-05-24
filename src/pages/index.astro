@@ -5,7 +5,6 @@ import Footer from '../components/Footer.astro';
 import LocalIcon from '../components/LocalIcon.astro';
 import { getCategoryMeta } from '../utils/categoryMeta';
 import { getCollection } from 'astro:content';
-import homeImages from '../data/homeImages.json';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -43,16 +42,12 @@ const profileBadges = [
   { href: '/categories', label: '分类', icon: 'rss' },
 ];
 
-const defaultCardImages = [
+const cardImages = [
   '/article-cover-knowledge-01.png',
   '/article-cover-knowledge-02.png',
   '/article-cover-knowledge-03.png',
   '/article-cover-knowledge-04.png',
 ];
-const uploadedCardImages = Array.isArray(homeImages.cardImages)
-  ? homeImages.cardImages.filter((image) => typeof image === 'string' && image.trim())
-  : [];
-const cardImages = uploadedCardImages.length > 0 ? uploadedCardImages : defaultCardImages;
 ---
 
 <BaseLayout title="首页" description="晨熠的个人博客 - 深空中的丁火">
@@ -177,7 +172,7 @@ const cardImages = uploadedCardImages.length > 0 ? uploadedCardImages : defaultC
                 day: 'numeric',
               });
               const readingMinutes = Math.max(4, Math.ceil((post.body?.length || 800) / 420));
-              const cover = cardImages[index % cardImages.length];
+              const cover = post.data.cover || cardImages[index % cardImages.length];
 
               return (
                 <a
